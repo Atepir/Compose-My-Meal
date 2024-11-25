@@ -15,10 +15,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 
 @Composable
-fun SuggestionScreen() {
-    // UI based on the provided wireframe
+fun SuggestionScreen(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -27,13 +27,11 @@ fun SuggestionScreen() {
     ) {
         Text(text = "A very nice recipe!", style = MaterialTheme.typography.h5)
 
-        // Recipe details (image, flag, ingredients, description)
         Column(
             modifier = Modifier.weight(1f),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Replace this with Image composable for your image
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -53,17 +51,16 @@ fun SuggestionScreen() {
             }
 
             Text(
-                text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida laoreet ut purus dui class ultricies.",
+                text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                 style = MaterialTheme.typography.body2
             )
         }
 
-        // Buttons at the bottom
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Button(onClick = { /* Browse action */ }) {
+            Button(onClick = { navController.navigate("browse") }) {
                 Text("Browse")
             }
             Button(onClick = { /* Surprise Me action */ }) {
