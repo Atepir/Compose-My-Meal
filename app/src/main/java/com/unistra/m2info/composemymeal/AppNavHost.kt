@@ -60,6 +60,7 @@ fun AppNavHost() {
             composable("favorites") { FavoritesScreen() }
             composable("browse") { BrowseScreen(navController) }
             composable("ingredients") { IngredientsScreen() }
+            composable("countries") { CountriesScreen() }
         }
 
     }

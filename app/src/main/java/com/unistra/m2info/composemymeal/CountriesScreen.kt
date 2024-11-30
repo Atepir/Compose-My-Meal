@@ -19,7 +19,7 @@ import androidx.compose.material3.Tab
 
 
 @Composable
-fun IngredientsScreen() {
+fun CountriesScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -29,7 +29,7 @@ fun IngredientsScreen() {
             selectedTabIndex = 0,
             modifier = Modifier.fillMaxWidth()
         ) {
-            listOf("Tomato", "carrot", "Broccoli", "apple", "orange", "banana").forEachIndexed { index, title ->
+            listOf("France", "India", "Spain", "Germany", "Japan", "Mexico").forEachIndexed { index, title ->
                 Tab(
                     selected = index == 0,
                     onClick = { },
@@ -37,15 +37,6 @@ fun IngredientsScreen() {
                 )
             }
         }
-
-        Text(
-            text = "View Ingredient description, allergies, etc. >",
-            fontSize = 14.sp,
-            color = Color.Blue,
-            modifier = Modifier
-                .padding(vertical = 8.dp)
-                .clickable {}
-        )
 
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
@@ -66,7 +57,7 @@ fun IngredientsScreen() {
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Image(
-                            painter = painterResource(id = R.drawable.tomato),
+                            painter = painterResource(id = R.drawable.france),
                             contentDescription = "Special recipe",
                             modifier = Modifier.size(80.dp)
                         )

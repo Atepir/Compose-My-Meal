@@ -55,6 +55,8 @@ fun BrowseScreen(navController: NavController) {
             text = "Countries",
             fontSize = 18.sp,
             modifier = Modifier.padding(vertical = 8.dp)
+                .padding(bottom = 8.dp)
+                .clickable { navController.navigate("countries") }
         )
         CategoryGrid(
             items = listOf(
