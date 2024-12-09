@@ -14,10 +14,11 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
+import com.unistra.m2info.composemymeal.layout.SheetStack
+import com.unistra.m2info.composemymeal.screens.CountriesSheet
 
 @Composable
-fun BrowseScreen(navController: NavController) {
+fun BrowseSheet(sheetStack: SheetStack) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -33,9 +34,7 @@ fun BrowseScreen(navController: NavController) {
         Text(
             text = "Ingredients",
             fontSize = 18.sp,
-            modifier = Modifier
-                .padding(bottom = 8.dp)
-                .clickable { navController.navigate("ingredients") }
+            modifier = Modifier.padding(bottom = 8.dp)
         )
 
         CategoryGrid(
@@ -56,7 +55,7 @@ fun BrowseScreen(navController: NavController) {
             fontSize = 18.sp,
             modifier = Modifier.padding(vertical = 8.dp)
                 .padding(bottom = 8.dp)
-                .clickable { navController.navigate("countries") }
+                .clickable { sheetStack.push({ CountriesSheet(sheetStack)}) }
         )
         CategoryGrid(
             items = listOf(

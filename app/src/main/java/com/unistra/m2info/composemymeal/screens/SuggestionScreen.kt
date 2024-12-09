@@ -1,4 +1,4 @@
-package com.unistra.m2info.composemymeal
+package com.unistra.m2info.composemymeal.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,9 +16,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.unistra.m2info.composemymeal.BrowseSheet
+import com.unistra.m2info.composemymeal.layout.SheetStack
 
 @Composable
-fun SuggestionScreen(navController: NavController) {
+fun SuggestionScreen(navController: NavController, sheetStack: SheetStack) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -60,7 +62,7 @@ fun SuggestionScreen(navController: NavController) {
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Button(onClick = { navController.navigate("browse") }) {
+            Button(onClick = { sheetStack.push({ BrowseSheet(sheetStack) }) }) {
                 Text("Browse")
             }
             Button(onClick = { /* Surprise Me action */ }) {
