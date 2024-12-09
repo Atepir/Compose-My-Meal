@@ -1,8 +1,7 @@
-package com.unistra.m2info.composemymeal
+package com.unistra.m2info.composemymeal.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -16,10 +15,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Tab
+import com.unistra.m2info.composemymeal.R
+import com.unistra.m2info.composemymeal.layout.SheetStack
 
 
 @Composable
-fun CountriesScreen() {
+fun CountriesSheet(sheetStack: SheetStack) {
     Column(
         modifier = Modifier
             .fillMaxSize()

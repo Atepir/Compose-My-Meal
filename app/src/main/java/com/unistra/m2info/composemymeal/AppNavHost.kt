@@ -24,7 +24,6 @@ import androidx.navigation.compose.rememberNavController
 import com.unistra.m2info.composemymeal.layout.Sheet
 import com.unistra.m2info.composemymeal.layout.SheetStack
 import com.unistra.m2info.composemymeal.layout.SheetStackManager
-import com.unistra.m2info.composemymeal.screens.BrowseScreen
 import com.unistra.m2info.composemymeal.screens.FavoritesScreen
 import com.unistra.m2info.composemymeal.screens.SuggestionScreen
 

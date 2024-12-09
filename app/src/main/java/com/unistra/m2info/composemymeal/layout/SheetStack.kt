@@ -1,4 +1,5 @@
 package com.unistra.m2info.composemymeal.layout
+import androidx.activity.compose.BackHandler
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
@@ -34,6 +35,13 @@ class SheetStack {
 @Composable
 fun SheetStackManager(sheetStack: SheetStack) {
     val coroutineScope = rememberCoroutineScope()
+
+    // Handle back button to pop the stack
+    BackHandler(enabled = !sheetStack.isEmpty) {
+        coroutineScope.launch {
+            sheetStack.pop() // Remove the top sheet when the back button is pressed
+        }
+    }
 
     // If there's a sheet in the stack, show it
     sheetStack.peek()?.let { content ->
