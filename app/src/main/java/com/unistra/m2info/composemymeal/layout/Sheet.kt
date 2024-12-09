@@ -2,12 +2,8 @@ package com.unistra.m2info.composemymeal.layout
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
@@ -18,41 +14,23 @@ fun Sheet(
     content: @Composable () -> Unit,
     onDismissRequest: () -> Unit
 ) {
-    val sheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
+    val sheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Expanded)
     val coroutineScope = rememberCoroutineScope()
+
+    // Listen for changes to the sheet state
+    LaunchedEffect(sheetState.isVisible) {
+        if (!sheetState.isVisible) {
+            onDismissRequest() // Trigger dismiss when the sheet is hidden
+        }
+    }
 
     ModalBottomSheetLayout(
         sheetState = sheetState,
         sheetContent = {
-            // Close button at the top of the sheet
-            IconButton(
-                onClick = {
-                    coroutineScope.launch {
-                        sheetState.hide() // Close the sheet
-                        onDismissRequest()
-                    }
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-            ) {
-                Icon(Icons.Filled.Close, contentDescription = "Close Sheet")
-            }
-
-            // Dynamically render the provided content
+            // Content of the sheet
             content()
         }
     ) {
-        // Trigger sheet from parent UI
-        Button(
-            onClick = {
-                coroutineScope.launch {
-                    sheetState.show() // Open the sheet
-                }
-            },
-            modifier = Modifier.padding(16.dp)
-        ) {
-            Text("Open Bottom Sheet")
-        }
+        // Optionally, main screen content goes here
     }
 }

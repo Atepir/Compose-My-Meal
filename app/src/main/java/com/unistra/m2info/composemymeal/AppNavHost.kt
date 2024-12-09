@@ -21,6 +21,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.unistra.m2info.composemymeal.layout.Sheet
+import com.unistra.m2info.composemymeal.layout.SheetStack
+import com.unistra.m2info.composemymeal.layout.SheetStackManager
 import com.unistra.m2info.composemymeal.screens.BrowseScreen
 import com.unistra.m2info.composemymeal.screens.FavoritesScreen
 import com.unistra.m2info.composemymeal.screens.SuggestionScreen
@@ -33,6 +35,8 @@ fun AppNavHost() {
     val tabs = listOf("Suggestions", "Favorites")
     val currentBackStackEntry = navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry.value?.destination?.route
+
+    val sheetStack = remember {SheetStack()}
 
     Column(
         modifier = Modifier
@@ -59,18 +63,12 @@ fun AppNavHost() {
             }
         }
 
+        SheetStackManager(sheetStack)
+
         NavHost(navController = navController, startDestination = "suggestion") {
-            composable("suggestion") { SuggestionScreen(navController) }
-            composable("favorites") { FavoritesScreen() }
-            composable("browse") {
-                Sheet(
-                    content = { BrowseScreen() },
-                    onDismissRequest = {
-                        // Handle what happens when the sheet is dismissed
-                        println("Sheet dismissed")
-                    }
-                )
-            }
+            composable("suggestion") { SuggestionScreen(navController, sheetStack) }
+            composable("favorites") { FavoritesScreen(navController, sheetStack) }
         }
+
     }
 }
