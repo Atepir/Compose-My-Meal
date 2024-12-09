@@ -37,7 +37,7 @@ fun BottomNavigation(sheetStack: SheetStack) {
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.padding(12.dp)
             ){
-                Text(text = "Browse", fontSize = 24.sp)
+                Text(text = "Browse", fontSize = 24.sp, modifier = Modifier.padding(end = 4.dp))
                 Icon(imageVector = Icons.Default.Search, contentDescription = "Search", Modifier.size(30.dp))
             }
 
@@ -53,7 +53,7 @@ fun BottomNavigation(sheetStack: SheetStack) {
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.padding(12.dp)
             ){
-                Text(text = "Surprise Me", fontSize = 24.sp)
+                Text(text = "Surprise Me", fontSize = 24.sp, modifier = Modifier.padding(end = 4.dp))
                 Icon(imageVector = Icons.Default.Refresh, contentDescription = "Surprise", Modifier.size(30.dp))
             }
 
