@@ -21,6 +21,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.unistra.m2info.composemymeal.layout.CustomRow
 import com.unistra.m2info.composemymeal.layout.Sheet
 import com.unistra.m2info.composemymeal.layout.SheetStack
 import com.unistra.m2info.composemymeal.layout.SheetStackManager
@@ -43,25 +44,19 @@ fun AppNavHost() {
             .fillMaxSize()
             .padding(WindowInsets.statusBars.asPaddingValues())
     ) {
-        // Afficher la barre d'onglets uniquement sur la homepage (Suggestions et Favorites)
-        if (currentRoute == "suggestion" || currentRoute == "favorites") {
-            TabRow(
-                selectedTabIndex = selectedTabIndex,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                tabs.forEachIndexed { index, title ->
-                    Tab(
-                        selected = selectedTabIndex == index,
-                        onClick = {
-                            selectedTabIndex = index
-                            if (index == 0) navController.navigate("suggestion")
-                            else navController.navigate("favorites")
-                        },
-                        text = { Text(text = title) }
-                    )
+        val pages = listOf("Suggestion", "Favorites")
+        var selectedTabIndex by remember { mutableStateOf(0) }
+        CustomRow(
+            items = pages,
+            selectedIndex = selectedTabIndex,
+            onTabSelected = { index ->
+                run {
+                    if (index == 0) navController.navigate("suggestion")
+                    else navController.navigate("favorites")
                 }
+                selectedTabIndex = index
             }
-        }
+        )
 
         SheetStackManager(sheetStack)
 

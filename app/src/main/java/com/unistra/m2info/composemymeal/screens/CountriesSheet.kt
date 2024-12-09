@@ -15,7 +15,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Tab
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import com.unistra.m2info.composemymeal.R
+import com.unistra.m2info.composemymeal.layout.CustomRow
 import com.unistra.m2info.composemymeal.layout.SheetStack
 
 
@@ -26,18 +31,13 @@ fun CountriesSheet(sheetStack: SheetStack) {
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        ScrollableTabRow(
-            selectedTabIndex = 0,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            listOf("France", "India", "Spain", "Germany", "Japan", "Mexico").forEachIndexed { index, title ->
-                Tab(
-                    selected = index == 0,
-                    onClick = { },
-                    text = { Text(text = title) }
-                )
-            }
-        }
+        val countries = listOf("France", "United Kingdom", "Some other country")
+        var selectedTabIndex by remember { mutableStateOf(0) }
+        CustomRow(
+            items = countries,
+            selectedIndex = selectedTabIndex,
+            onTabSelected = { index -> selectedTabIndex = index }
+        )
 
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
