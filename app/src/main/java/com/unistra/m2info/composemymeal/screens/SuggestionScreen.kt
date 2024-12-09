@@ -10,11 +10,17 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.ClickableText
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.unistra.m2info.composemymeal.BrowseSheet
 import com.unistra.m2info.composemymeal.layout.SheetStack
 import androidx.compose.foundation.layout.* // For Column, Row, Box, and layout modifiers
 import androidx.compose.material.icons.Icons
@@ -25,66 +31,112 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
 import com.unistra.m2info.composemymeal.layout.BottomNavigation
 
+import com.unistra.m2info.composemymeal.R
 
 @Composable
 fun SuggestionScreen(navController: NavController, sheetStack: SheetStack) {
+    var isLiked by remember { mutableStateOf(false) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
-        // Header text with primary color and h5 typography
-        Text(
-            text = "A very nice recipe!",
-            style = MaterialTheme.typography.headlineSmall,
-            color = MaterialTheme.colorScheme.primary
-        )
-
         Column(
-            modifier = Modifier.weight(1f),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+            modifier = Modifier
+                .padding(bottom = 64.dp),
+            verticalArrangement = Arrangement.Top
         ) {
-            // Box to represent the image placeholder
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(150.dp)
-                    .padding(bottom = 8.dp),
-                contentAlignment = Alignment.Center
-            ) {
+            Column(modifier = Modifier.fillMaxWidth()) {
                 Text(
-                    text = "Image Placeholder",
-                    color = MaterialTheme.colorScheme.secondary
+                    text = "A very nice recipe!",
+                    modifier = Modifier.padding(bottom = 8.dp)
                 )
-            }
 
-            // Ingredients section
-            Text(
-                text = "Ingredients",
-                style = MaterialTheme.typography.titleMedium
-            )
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier.padding(vertical = 8.dp)
-            ) {
-                repeat(3) {
-                    Text(
-                        text = "🍅 Tomato 1kg",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurface
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(150.dp),
+                    contentAlignment = Alignment.TopEnd
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.orange),
+                        contentDescription = "Recipe Image",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(150.dp)
+                            .padding(bottom = 8.dp)
+                    )
+
+                    Image(
+                        painter = painterResource(id = R.drawable.france),
+                        contentDescription = "French Flag",
+                        modifier = Modifier
+                            .size(60.dp)
+                            .align(Alignment.TopEnd)
+                            .padding(8.dp)
                     )
                 }
             }
 
-            // Description text
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 16.dp),
+                horizontalArrangement = Arrangement.Start
+            ) {
+                IconButton(
+                    onClick = { isLiked = !isLiked },
+                    modifier = Modifier.size(40.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(
+                            id = if (isLiked) R.drawable.heart_red else R.drawable.heart
+                        ),
+                        contentDescription = "Like",
+                    )
+                }
+
+                Spacer(modifier = Modifier.width(16.dp))
+
+                IconButton(onClick = {}, modifier = Modifier.size(40.dp)) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.share),
+                        contentDescription = "Share",
+                    )
+                }
+            }
+
             Text(
-                text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                text = "Ingredients",
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                repeat(4) {
+                    ClickableText(
+                        text = AnnotatedString("🍅 Tomato 1kg"),
+                        onClick = {},
+                        modifier = Modifier.padding(horizontal = 4.dp)
+                    )
+                }
+            }
+
+            Text(
+                text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida laoreet ut purus dui class ultricies! Lorem ipsum dolor sit amet, consectetur adipiscing elit" +
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+                textAlign = TextAlign.Start,
+                modifier = Modifier.padding(vertical = 8.dp)
             )
         }
+
 
         BottomNavigation(sheetStack)
     }
