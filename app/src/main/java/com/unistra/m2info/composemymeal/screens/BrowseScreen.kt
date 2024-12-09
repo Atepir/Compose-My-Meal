@@ -1,4 +1,4 @@
-package com.unistra.m2info.composemymeal.screens
+package com.unistra.m2info.composemymeal
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -15,6 +15,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.unistra.m2info.composemymeal.R
+import androidx.navigation.NavController
 
 @Composable
 fun BrowseScreen() {
@@ -35,6 +36,7 @@ fun BrowseScreen() {
             fontSize = 18.sp,
             modifier = Modifier.padding(bottom = 8.dp)
         )
+
         CategoryGrid(
             items = listOf(
                 R.drawable.tomato to "Tomato",
@@ -52,6 +54,8 @@ fun BrowseScreen() {
             text = "Countries",
             fontSize = 18.sp,
             modifier = Modifier.padding(vertical = 8.dp)
+                .padding(bottom = 8.dp)
+                .clickable { navController.navigate("countries") }
         )
         CategoryGrid(
             items = listOf(
