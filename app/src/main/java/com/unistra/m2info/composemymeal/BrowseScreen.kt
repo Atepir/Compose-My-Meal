@@ -14,9 +14,10 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 
 @Composable
-fun BrowseScreen() {
+fun BrowseScreen(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -32,8 +33,11 @@ fun BrowseScreen() {
         Text(
             text = "Ingredients",
             fontSize = 18.sp,
-            modifier = Modifier.padding(bottom = 8.dp)
+            modifier = Modifier
+                .padding(bottom = 8.dp)
+                .clickable { navController.navigate("ingredients") }
         )
+
         CategoryGrid(
             items = listOf(
                 R.drawable.tomato to "Tomato",
@@ -51,6 +55,8 @@ fun BrowseScreen() {
             text = "Countries",
             fontSize = 18.sp,
             modifier = Modifier.padding(vertical = 8.dp)
+                .padding(bottom = 8.dp)
+                .clickable { navController.navigate("countries") }
         )
         CategoryGrid(
             items = listOf(

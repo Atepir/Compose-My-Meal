@@ -58,7 +58,10 @@ fun AppNavHost() {
         NavHost(navController = navController, startDestination = "suggestion") {
             composable("suggestion") { SuggestionScreen(navController) }
             composable("favorites") { FavoritesScreen() }
-            composable("browse") { BrowseScreen() }
+            composable("browse") { BrowseScreen(navController) }
+            composable("ingredients") { IngredientsScreen() }
+            composable("countries") { CountriesScreen() }
         }
+
     }
 }
