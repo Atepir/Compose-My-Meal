@@ -16,7 +16,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Tab
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import com.unistra.m2info.composemymeal.R
+import com.unistra.m2info.composemymeal.layout.CustomRow
 import com.unistra.m2info.composemymeal.layout.SheetStack
 
 
@@ -27,18 +32,13 @@ fun IngredientsSheet(sheetStack: SheetStack) {
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        ScrollableTabRow(
-            selectedTabIndex = 0,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            listOf("Tomato", "carrot", "Broccoli", "apple", "orange", "banana").forEachIndexed { index, title ->
-                Tab(
-                    selected = index == 0,
-                    onClick = { },
-                    text = { Text(text = title) }
-                )
-            }
-        }
+        val ingredients = listOf("Tomato", "Carrot", "Broccoli", "apple", "orange", "banana")
+        var selectedTabIndex by remember { mutableStateOf(0) }
+        CustomRow(
+            items = ingredients,
+            selectedIndex = selectedTabIndex,
+            onTabSelected = { index -> selectedTabIndex = index }
+        )
 
         Text(
             text = "View Ingredient description, allergies, etc. >",

@@ -6,12 +6,18 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Text
+import androidx.compose.material3.Icon
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.unistra.m2info.composemymeal.layout.SheetStack
@@ -29,17 +35,23 @@ fun BrowseSheet(sheetStack: SheetStack) {
         Text(
             text = "Browse",
             fontSize = 24.sp,
+            fontWeight = FontWeight.Bold,
             modifier = Modifier.align(Alignment.CenterHorizontally)
         )
 
-        Text(
-            text = "Ingredients",
-            fontSize = 18.sp,
-            modifier = Modifier
-                .padding(bottom = 8.dp)
-                .padding(bottom = 8.dp)
-                .clickable { sheetStack.push({ IngredientsSheet(sheetStack) }) }
-        )
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(6.dp)
+        ){
+            Text(text = "Ingredients",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier
+                    .clickable { sheetStack.push({ IngredientsSheet(sheetStack) }) }
+            )
+            Icon(imageVector = Icons.Default.KeyboardArrowRight, contentDescription = "More", Modifier.size(30.dp))
+        }
 
         CategoryGrid(
             items = listOf(
@@ -54,14 +66,19 @@ fun BrowseSheet(sheetStack: SheetStack) {
             println("Clicked on ingredient: $it")
         }
 
-        Text(
-            text = "Countries",
-            fontSize = 18.sp,
-            modifier = Modifier
-                .padding(vertical = 8.dp)
-                .padding(bottom = 8.dp)
-                .clickable { sheetStack.push({ CountriesSheet(sheetStack) }) }
-        )
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(6.dp)
+        ){
+            Text(text = "Countries",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier
+                .clickable { sheetStack.push({ CountriesSheet(sheetStack)}) }
+            )
+            Icon(imageVector = Icons.Default.KeyboardArrowRight, contentDescription = "More", Modifier.size(30.dp))
+        }
         CategoryGrid(
             items = listOf(
                 R.drawable.france to "France",

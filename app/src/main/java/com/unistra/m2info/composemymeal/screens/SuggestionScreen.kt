@@ -1,5 +1,15 @@
 package com.unistra.m2info.composemymeal.screens
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.Composable
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.ClickableText
@@ -13,6 +23,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.unistra.m2info.composemymeal.layout.SheetStack
+import androidx.compose.foundation.layout.* // For Column, Row, Box, and layout modifiers
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.* // For MaterialTheme, Text, Button, and other Material 3 components
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.sp
+import com.unistra.m2info.composemymeal.layout.BottomNavigation
+
 import com.unistra.m2info.composemymeal.R
 
 @Composable
@@ -122,6 +141,7 @@ fun SuggestionScreen(navController: NavController, sheetStack: SheetStack) {
             )
         }
 
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -135,5 +155,6 @@ fun SuggestionScreen(navController: NavController, sheetStack: SheetStack) {
                 Text("Surprise Me")
             }
         }
+        BottomNavigation(sheetStack)
     }
 }
