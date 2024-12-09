@@ -13,7 +13,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.ClickableText
-import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,21 +37,20 @@ import com.unistra.m2info.composemymeal.R
 fun SuggestionScreen(navController: NavController, sheetStack: SheetStack) {
     var isLiked by remember { mutableStateOf(false) }
 
-    Box(
+    Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(16.dp),
+        verticalArrangement = Arrangement.SpaceBetween
     ) {
         Column(
             modifier = Modifier
-                .fillMaxSize()
                 .padding(bottom = 64.dp),
             verticalArrangement = Arrangement.Top
         ) {
             Column(modifier = Modifier.fillMaxWidth()) {
                 Text(
                     text = "A very nice recipe!",
-                    style = MaterialTheme.typography.h5,
                     modifier = Modifier.padding(bottom = 8.dp)
                 )
 
@@ -112,7 +110,6 @@ fun SuggestionScreen(navController: NavController, sheetStack: SheetStack) {
 
             Text(
                 text = "Ingredients",
-                style = MaterialTheme.typography.subtitle1,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
 
@@ -136,25 +133,11 @@ fun SuggestionScreen(navController: NavController, sheetStack: SheetStack) {
                 text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida laoreet ut purus dui class ultricies! Lorem ipsum dolor sit amet, consectetur adipiscing elit" +
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, consectetur adipiscing elit",
                 textAlign = TextAlign.Start,
-                style = MaterialTheme.typography.body2,
                 modifier = Modifier.padding(vertical = 8.dp)
             )
         }
 
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .align(Alignment.BottomCenter),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Button(onClick = { navController.navigate("browse") }) {
-                Text("Browse")
-            }
-            Button(onClick = { /* Surprise Me functionality */ }) {
-                Text("Surprise Me")
-            }
-        }
         BottomNavigation(sheetStack)
     }
 }
