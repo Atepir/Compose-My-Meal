@@ -1,4 +1,4 @@
-package com.unistra.m2info.composemymeal
+package com.unistra.m2info.composemymeal.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box

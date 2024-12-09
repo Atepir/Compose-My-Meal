@@ -16,11 +16,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavHost
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.unistra.m2info.composemymeal.layout.Sheet
+import com.unistra.m2info.composemymeal.screens.BrowseScreen
+import com.unistra.m2info.composemymeal.screens.FavoritesScreen
+import com.unistra.m2info.composemymeal.screens.SuggestionScreen
+
 
 @Composable
 fun AppNavHost() {
@@ -58,7 +62,15 @@ fun AppNavHost() {
         NavHost(navController = navController, startDestination = "suggestion") {
             composable("suggestion") { SuggestionScreen(navController) }
             composable("favorites") { FavoritesScreen() }
-            composable("browse") { BrowseScreen() }
+            composable("browse") {
+                Sheet(
+                    content = { BrowseScreen() },
+                    onDismissRequest = {
+                        // Handle what happens when the sheet is dismissed
+                        println("Sheet dismissed")
+                    }
+                )
+            }
         }
     }
 }

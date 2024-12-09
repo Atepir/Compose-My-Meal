@@ -1,4 +1,4 @@
-package com.unistra.m2info.composemymeal
+package com.unistra.m2info.composemymeal.screens
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
