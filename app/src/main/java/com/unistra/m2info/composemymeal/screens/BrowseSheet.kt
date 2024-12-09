@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.unistra.m2info.composemymeal.layout.SheetStack
 import com.unistra.m2info.composemymeal.screens.CountriesSheet
+import com.unistra.m2info.composemymeal.screens.IngredientsSheet
 
 @Composable
 fun BrowseSheet(sheetStack: SheetStack) {
@@ -34,7 +35,10 @@ fun BrowseSheet(sheetStack: SheetStack) {
         Text(
             text = "Ingredients",
             fontSize = 18.sp,
-            modifier = Modifier.padding(bottom = 8.dp)
+            modifier = Modifier
+                .padding(bottom = 8.dp)
+                .padding(bottom = 8.dp)
+                .clickable { sheetStack.push({ IngredientsSheet(sheetStack) }) }
         )
 
         CategoryGrid(
@@ -53,9 +57,10 @@ fun BrowseSheet(sheetStack: SheetStack) {
         Text(
             text = "Countries",
             fontSize = 18.sp,
-            modifier = Modifier.padding(vertical = 8.dp)
+            modifier = Modifier
+                .padding(vertical = 8.dp)
                 .padding(bottom = 8.dp)
-                .clickable { sheetStack.push({ CountriesSheet(sheetStack)}) }
+                .clickable { sheetStack.push({ CountriesSheet(sheetStack) }) }
         )
         CategoryGrid(
             items = listOf(
