@@ -33,6 +33,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.text.font.FontWeight
 
 import coil.compose.AsyncImage
+import com.unistra.m2info.composemymeal.FavoritesManager
 import com.unistra.m2info.composemymeal.R
 
 import com.unistra.m2info.composemymeal.SuggestionViewModel
@@ -107,12 +108,17 @@ fun SuggestionScreen(navController: NavController, sheetStack: SheetStack) {
                             horizontalArrangement = Arrangement.Start
                         ) {
                             IconButton(
-                                onClick = { isLiked = !isLiked },
+                                onClick = {
+                                    randomMeal?.let { FavoritesManager.toggleFavorite(it) }
+                                },
                                 modifier = Modifier.size(40.dp)
                             ) {
                                 Icon(
                                     painter = painterResource(
-                                        id = if (isLiked) R.drawable.heart_red else R.drawable.heart
+                                        id = if (randomMeal?.let { FavoritesManager.isFavorite(it) } == true)
+                                            R.drawable.heart_red
+                                        else
+                                            R.drawable.heart
                                     ),
                                     contentDescription = "Like",
                                 )
