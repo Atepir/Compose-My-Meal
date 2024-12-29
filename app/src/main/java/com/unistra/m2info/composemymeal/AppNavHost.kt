@@ -26,6 +26,7 @@ import com.unistra.m2info.composemymeal.layout.Sheet
 import com.unistra.m2info.composemymeal.layout.SheetStack
 import com.unistra.m2info.composemymeal.layout.SheetStackManager
 import com.unistra.m2info.composemymeal.screens.FavoritesScreen
+import com.unistra.m2info.composemymeal.screens.MealDetailScreen
 import com.unistra.m2info.composemymeal.screens.SuggestionScreen
 
 
@@ -63,6 +64,12 @@ fun AppNavHost() {
         NavHost(navController = navController, startDestination = "suggestion") {
             composable("suggestion") { SuggestionScreen(navController, sheetStack) }
             composable("favorites") { FavoritesScreen(navController, sheetStack) }
+            composable("mealDetail/{mealId}") { backStackEntry ->
+                val mealId = backStackEntry.arguments?.getString("mealId")
+                mealId?.let {
+                    MealDetailScreen(mealId = it)
+                }
+            }
         }
 
     }

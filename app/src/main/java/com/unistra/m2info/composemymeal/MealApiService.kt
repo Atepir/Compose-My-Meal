@@ -8,4 +8,7 @@ interface MealApiService {
 
     @GET("random.php")
     fun getRandomMeal(): Call<MealDetailsResponse>
+
+    @GET("lookup.php")
+    fun getMealDetails(@Query("i") mealId: String): Call<MealDetailsResponse>
 }

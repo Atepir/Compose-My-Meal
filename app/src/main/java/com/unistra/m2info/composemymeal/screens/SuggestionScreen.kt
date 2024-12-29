@@ -42,7 +42,6 @@ import com.unistra.m2info.composemymeal.SuggestionViewModel
 @Composable
 fun SuggestionScreen(navController: NavController, sheetStack: SheetStack) {
     val viewModel = remember { SuggestionViewModel() }
-    var isLiked by remember { mutableStateOf(false) }
 
     val randomMeal by viewModel.randomMeal
     val isLoading by viewModel.isLoading

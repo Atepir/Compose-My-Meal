@@ -49,7 +49,7 @@ fun FavoritesScreen(navController: NavController, sheetStack: SheetStack) {
             ) {
                 items(favorites) { meal ->
                     MealCard(meal = meal, onClick = {
-                        // Navigate to meal details screen (optional)
+                        navController.navigate("mealDetail/${meal.idMeal}")
                     })
                 }
             }
