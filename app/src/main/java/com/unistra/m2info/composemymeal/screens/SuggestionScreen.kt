@@ -12,7 +12,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.ClickableText
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,122 +24,129 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.unistra.m2info.composemymeal.layout.SheetStack
-import androidx.compose.foundation.layout.* // For Column, Row, Box, and layout modifiers
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.* // For MaterialTheme, Text, Button, and other Material 3 components
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.sp
 import com.unistra.m2info.composemymeal.layout.BottomNavigation
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 
+import coil.compose.AsyncImage
 import com.unistra.m2info.composemymeal.R
+
+import com.unistra.m2info.composemymeal.SuggestionViewModel
+
 
 @Composable
 fun SuggestionScreen(navController: NavController, sheetStack: SheetStack) {
+    val viewModel = remember { SuggestionViewModel() }
     var isLiked by remember { mutableStateOf(false) }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.SpaceBetween
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(bottom = 64.dp),
-            verticalArrangement = Arrangement.Top
-        ) {
-            Column(modifier = Modifier.fillMaxWidth()) {
-                Text(
-                    text = "A very nice recipe!",
-                    modifier = Modifier.padding(bottom = 8.dp)
-                )
+    val randomMeal by viewModel.randomMeal
+    val isLoading by viewModel.isLoading
 
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(150.dp),
-                    contentAlignment = Alignment.TopEnd
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.orange),
-                        contentDescription = "Recipe Image",
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(150.dp)
-                            .padding(bottom = 8.dp)
-                    )
+    LaunchedEffect(Unit) {
+        viewModel.fetchRandomMeal()
+    }
 
-                    Image(
-                        painter = painterResource(id = R.drawable.france),
-                        contentDescription = "French Flag",
-                        modifier = Modifier
-                            .size(60.dp)
-                            .align(Alignment.TopEnd)
-                            .padding(8.dp)
-                    )
-                }
-            }
-
-            Row(
+    Box(modifier = Modifier.fillMaxSize()) {
+        if (isLoading) {
+            Box(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 16.dp),
-                horizontalArrangement = Arrangement.Start
+                    .fillMaxSize()
+                    .background(Color.LightGray),
+                contentAlignment = Alignment.Center
             ) {
-                IconButton(
-                    onClick = { isLiked = !isLiked },
-                    modifier = Modifier.size(40.dp)
-                ) {
-                    Icon(
-                        painter = painterResource(
-                            id = if (isLiked) R.drawable.heart_red else R.drawable.heart
-                        ),
-                        contentDescription = "Like",
-                    )
-                }
-
-                Spacer(modifier = Modifier.width(16.dp))
-
-                IconButton(onClick = {}, modifier = Modifier.size(40.dp)) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.share),
-                        contentDescription = "Share",
-                    )
-                }
+                CircularProgressIndicator()
             }
-
-            Text(
-                text = "Ingredients",
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
-
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
+        } else {
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp),
-                verticalAlignment = Alignment.CenterVertically
+                    .fillMaxSize()
+                    .padding(bottom = 64.dp), // Leave space for BottomNavigation
+                verticalArrangement = Arrangement.SpaceBetween
             ) {
-                repeat(4) {
-                    ClickableText(
-                        text = AnnotatedString("🍅 Tomato 1kg"),
-                        onClick = {},
-                        modifier = Modifier.padding(horizontal = 4.dp)
-                    )
-                }
-            }
+                randomMeal?.let { meal ->
+                    Column(
+                        modifier = Modifier
+                            .weight(1f)
+                            .verticalScroll(rememberScrollState()) // Make content scrollable
+                            .padding(16.dp)
+                    ) {
+                        Text(
+                            text = meal.strMeal,
+                            style = MaterialTheme.typography.titleLarge,
+                            modifier = Modifier.padding(bottom = 8.dp)
+                        )
 
-            Text(
-                text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida laoreet ut purus dui class ultricies! Lorem ipsum dolor sit amet, consectetur adipiscing elit" +
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-                textAlign = TextAlign.Start,
-                modifier = Modifier.padding(vertical = 8.dp)
-            )
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(150.dp),
+                            contentAlignment = Alignment.TopEnd
+                        ) {
+                            AsyncImage(
+                                model = meal.strMealThumb,
+                                contentDescription = "Meal Image",
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(150.dp)
+                                    .padding(bottom = 8.dp)
+                            )
+                        }
+
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 16.dp),
+                            horizontalArrangement = Arrangement.Start
+                        ) {
+                            IconButton(
+                                onClick = { isLiked = !isLiked },
+                                modifier = Modifier.size(40.dp)
+                            ) {
+                                Icon(
+                                    painter = painterResource(
+                                        id = if (isLiked) R.drawable.heart_red else R.drawable.heart
+                                    ),
+                                    contentDescription = "Like",
+                                )
+                            }
+
+                            Spacer(modifier = Modifier.width(16.dp))
+
+                            IconButton(onClick = {}, modifier = Modifier.size(40.dp)) {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.share),
+                                    contentDescription = "Share",
+                                )
+                            }
+                        }
+
+                        Text(
+                            text = "Ingredients",
+                            style = MaterialTheme.typography.bodyLarge,
+                            modifier = Modifier.padding(vertical = 8.dp)
+                        )
+
+                        Text(
+                            text = meal.strInstructions,
+                            textAlign = TextAlign.Start,
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier.padding(vertical = 8.dp)
+                        )
+                    }
+                } ?: Text("No meal data available.")
+            }
         }
 
-
-        BottomNavigation(sheetStack)
+        Box(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {
+            BottomNavigation(sheetStack = sheetStack)
+        }
     }
 }
