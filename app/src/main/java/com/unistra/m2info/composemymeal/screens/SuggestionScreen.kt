@@ -30,6 +30,7 @@ import com.unistra.m2info.composemymeal.layout.BottomNavigation
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.text.font.FontWeight
 
 import coil.compose.AsyncImage
 import com.unistra.m2info.composemymeal.R
@@ -75,8 +76,12 @@ fun SuggestionScreen(navController: NavController, sheetStack: SheetStack) {
                     ) {
                         Text(
                             text = meal.strMeal,
-                            style = MaterialTheme.typography.titleLarge,
-                            modifier = Modifier.padding(bottom = 8.dp)
+                            style = MaterialTheme.typography.headlineLarge.copy(
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.onSecondaryContainer
+                            ),
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.padding(8.dp)
                         )
 
                         Box(
@@ -123,9 +128,42 @@ fun SuggestionScreen(navController: NavController, sheetStack: SheetStack) {
                             }
                         }
 
+                        // Display ingredients with measures
                         Text(
                             text = "Ingredients",
-                            style = MaterialTheme.typography.bodyLarge,
+                            style = MaterialTheme.typography.titleLarge.copy(
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.primary
+                            ),
+                            modifier = Modifier.padding(vertical = 8.dp)
+                        )
+
+                        randomMeal?.let { meal ->
+                            val ingredientsWithMeasures = meal.getIngredientsWithMeasures()
+                            if (ingredientsWithMeasures.isEmpty()) {
+                                Text(
+                                    text = "No ingredients available.",
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    modifier = Modifier.padding(vertical = 8.dp)
+                                )
+                            } else {
+                                ingredientsWithMeasures.forEach { (ingredient, measure) ->
+                                    Text(
+                                        text = "• $ingredient - $measure",
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        modifier = Modifier.padding(vertical = 2.dp)
+                                    )
+                                }
+                            }
+                        }
+
+                        // Display instructions
+                        Text(
+                            text = "Instructions",
+                            style = MaterialTheme.typography.titleLarge.copy(
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.primary
+                            ),
                             modifier = Modifier.padding(vertical = 8.dp)
                         )
 
@@ -150,3 +188,4 @@ fun SuggestionScreen(navController: NavController, sheetStack: SheetStack) {
         }
     }
 }
+
