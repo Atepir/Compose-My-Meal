@@ -10,20 +10,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.unistra.m2info.composemymeal.FavoritesManager
-import com.unistra.m2info.composemymeal.MealDetail
 import com.unistra.m2info.composemymeal.MealDetailViewModel
 import com.unistra.m2info.composemymeal.R
 
@@ -53,15 +48,16 @@ fun MealDetailScreen(mealId: String, viewModel: MealDetailViewModel = viewModel(
                     .padding(16.dp)
                     .verticalScroll(rememberScrollState())
             ) {
-                // Meal Title
                 Text(
-                    text = it.strMeal,
-                    style = MaterialTheme.typography.headlineLarge,
-                    modifier = Modifier.padding(bottom = 8.dp),
-                    textAlign = TextAlign.Center
+                    text = meal.strMeal,
+                    style = MaterialTheme.typography.headlineLarge.copy(
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer
+                    ),
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(8.dp)
                 )
 
-                // Meal Image
                 AsyncImage(
                     model = it.strMealThumb,
                     contentDescription = "Meal Image",
@@ -102,10 +98,12 @@ fun MealDetailScreen(mealId: String, viewModel: MealDetailViewModel = viewModel(
                     }
                 }
 
-                // Ingredients
                 Text(
                     text = "Ingredients",
-                    style = MaterialTheme.typography.titleLarge,
+                    style = MaterialTheme.typography.titleLarge.copy(
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primary
+                    ),
                     modifier = Modifier.padding(vertical = 8.dp)
                 )
                 it.getIngredientsWithMeasures().forEach { (ingredient, measure) ->
@@ -116,10 +114,12 @@ fun MealDetailScreen(mealId: String, viewModel: MealDetailViewModel = viewModel(
                     )
                 }
 
-                // Instructions
                 Text(
                     text = "Instructions",
-                    style = MaterialTheme.typography.titleLarge,
+                    style = MaterialTheme.typography.titleLarge.copy(
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primary
+                    ),
                     modifier = Modifier.padding(vertical = 8.dp)
                 )
                 Text(
