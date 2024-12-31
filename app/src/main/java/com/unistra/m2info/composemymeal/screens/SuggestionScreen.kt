@@ -189,7 +189,7 @@ fun SuggestionScreen(navController: NavController, sheetStack: SheetStack) {
                     if (showShareDialog) {
                         ShareDialog(context = context, meal = meal, onDismiss = { showShareDialog = false })
                     }
-                    
+
                 } ?: Text("No meal data available.")
             }
         }
