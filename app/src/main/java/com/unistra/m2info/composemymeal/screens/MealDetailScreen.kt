@@ -3,15 +3,11 @@ package com.unistra.m2info.composemymeal.screens
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -19,12 +15,18 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.unistra.m2info.composemymeal.FavoritesManager
+import com.unistra.m2info.composemymeal.MealDetail
 import com.unistra.m2info.composemymeal.MealDetailViewModel
 import com.unistra.m2info.composemymeal.R
+import com.unistra.m2info.composemymeal.ShareDialog
+import com.unistra.m2info.composemymeal.utils.shareViaFacebook
+import com.unistra.m2info.composemymeal.utils.shareViaSms
 
 
 @Composable
 fun MealDetailScreen(mealId: String, viewModel: MealDetailViewModel = viewModel()) {
+    val context = LocalContext.current
+    var showShareDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(mealId) {
         viewModel.fetchMealDetails(mealId)
@@ -49,7 +51,7 @@ fun MealDetailScreen(mealId: String, viewModel: MealDetailViewModel = viewModel(
                     .verticalScroll(rememberScrollState())
             ) {
                 Text(
-                    text = meal.strMeal,
+                    text = it.strMeal,
                     style = MaterialTheme.typography.headlineLarge.copy(
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onSecondaryContainer
@@ -71,18 +73,16 @@ fun MealDetailScreen(mealId: String, viewModel: MealDetailViewModel = viewModel(
                         .padding(vertical = 16.dp),
                     horizontalArrangement = Arrangement.Start
                 ) {
+                    // Like Button
                     IconButton(
                         onClick = {
-                            meal?.let { FavoritesManager.toggleFavorite(it) }
+                            FavoritesManager.toggleFavorite(it)
                         },
                         modifier = Modifier.size(40.dp)
                     ) {
                         Icon(
                             painter = painterResource(
-                                id = if (meal?.let { FavoritesManager.isFavorite(it) } == true)
-                                    R.drawable.heart_red
-                                else
-                                    R.drawable.heart
+                                id = if (FavoritesManager.isFavorite(it)) R.drawable.heart_red else R.drawable.heart
                             ),
                             contentDescription = "Like",
                         )
@@ -90,7 +90,10 @@ fun MealDetailScreen(mealId: String, viewModel: MealDetailViewModel = viewModel(
 
                     Spacer(modifier = Modifier.width(16.dp))
 
-                    IconButton(onClick = {}, modifier = Modifier.size(40.dp)) {
+                    IconButton(
+                        onClick = { showShareDialog = true },
+                        modifier = Modifier.size(40.dp)
+                    ) {
                         Icon(
                             painter = painterResource(id = R.drawable.share),
                             contentDescription = "Share",
@@ -128,6 +131,10 @@ fun MealDetailScreen(mealId: String, viewModel: MealDetailViewModel = viewModel(
                     modifier = Modifier.padding(vertical = 8.dp),
                     textAlign = TextAlign.Start
                 )
+            }
+
+            if (showShareDialog) {
+                ShareDialog(context = context, meal = it, onDismiss = { showShareDialog = false })
             }
         } ?: Text(
             text = "Meal details not available.",

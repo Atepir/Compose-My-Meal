@@ -30,11 +30,13 @@ import com.unistra.m2info.composemymeal.layout.BottomNavigation
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 
 import coil.compose.AsyncImage
 import com.unistra.m2info.composemymeal.FavoritesManager
 import com.unistra.m2info.composemymeal.R
+import com.unistra.m2info.composemymeal.ShareDialog
 
 import com.unistra.m2info.composemymeal.SuggestionViewModel
 
@@ -42,6 +44,8 @@ import com.unistra.m2info.composemymeal.SuggestionViewModel
 @Composable
 fun SuggestionScreen(navController: NavController, sheetStack: SheetStack) {
     val viewModel = remember { SuggestionViewModel() }
+    var showShareDialog by remember { mutableStateOf(false) }
+    val context = LocalContext.current
 
     val randomMeal by viewModel.randomMeal
     val isLoading by viewModel.isLoading
@@ -125,7 +129,10 @@ fun SuggestionScreen(navController: NavController, sheetStack: SheetStack) {
 
                             Spacer(modifier = Modifier.width(16.dp))
 
-                            IconButton(onClick = {}, modifier = Modifier.size(40.dp)) {
+                            IconButton(
+                                onClick = { showShareDialog = true },
+                                modifier = Modifier.size(40.dp)
+                            ) {
                                 Icon(
                                     painter = painterResource(id = R.drawable.share),
                                     contentDescription = "Share",
@@ -179,6 +186,10 @@ fun SuggestionScreen(navController: NavController, sheetStack: SheetStack) {
                             modifier = Modifier.padding(vertical = 8.dp)
                         )
                     }
+                    if (showShareDialog) {
+                        ShareDialog(context = context, meal = meal, onDismiss = { showShareDialog = false })
+                    }
+                    
                 } ?: Text("No meal data available.")
             }
         }
