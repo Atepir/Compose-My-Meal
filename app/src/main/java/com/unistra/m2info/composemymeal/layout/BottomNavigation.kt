@@ -17,11 +17,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.unistra.m2info.composemymeal.BrowseSheet
+import com.unistra.m2info.composemymeal.screens.SuggestionScreen
 
 @Composable
-fun BottomNavigation(sheetStack: SheetStack) {
-    // Buttons at the bottom
+fun BottomNavigation(sheetStack: SheetStack, navController: NavController) { // Passer NavController
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier.fillMaxWidth()
@@ -36,14 +38,13 @@ fun BottomNavigation(sheetStack: SheetStack) {
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.padding(12.dp)
-            ){
+            ) {
                 Text(text = "Browse", fontSize = 24.sp, modifier = Modifier.padding(end = 4.dp))
                 Icon(imageVector = Icons.Default.Search, contentDescription = "Search", Modifier.size(30.dp))
             }
-
         }
         FloatingActionButton(
-            onClick = { sheetStack.push { BrowseSheet(sheetStack) } },
+            onClick = { navController.navigate("suggestion") }, // Naviguer vers "suggestion"
             containerColor = Color.DarkGray,
             contentColor = Color.White,
             modifier = Modifier.padding(12.dp)
@@ -52,11 +53,10 @@ fun BottomNavigation(sheetStack: SheetStack) {
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.padding(12.dp)
-            ){
+            ) {
                 Text(text = "Surprise Me", fontSize = 24.sp, modifier = Modifier.padding(end = 4.dp))
                 Icon(imageVector = Icons.Default.Refresh, contentDescription = "Surprise", Modifier.size(30.dp))
             }
-
         }
     }
 }

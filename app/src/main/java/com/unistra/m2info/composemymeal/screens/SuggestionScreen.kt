@@ -200,7 +200,7 @@ fun SuggestionScreen(navController: NavController, sheetStack: SheetStack) {
                 .fillMaxWidth()
                 .padding(16.dp)
         ) {
-            BottomNavigation(sheetStack = sheetStack)
+            BottomNavigation(sheetStack = sheetStack, navController = navController)
         }
     }
 }
