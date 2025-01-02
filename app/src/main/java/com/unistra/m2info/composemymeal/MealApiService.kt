@@ -11,4 +11,11 @@ interface MealApiService {
 
     @GET("lookup.php")
     fun getMealDetails(@Query("i") mealId: String): Call<MealDetailsResponse>
+
+    @GET("filter.php")
+    fun getMealsByIngredient(@Query("i") ingredient: String): Call<MealDetailsResponse>
+
+    @GET("list.php?i=list")
+    fun getIngredients(): Call<IngredientListResponse>
+
 }
