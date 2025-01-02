@@ -14,6 +14,7 @@ import com.unistra.m2info.composemymeal.ui.theme.ComposeMyMealTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        FavoritesManager.initialize(this)
         enableEdgeToEdge()
         setContent {
             ComposeMyMealTheme {

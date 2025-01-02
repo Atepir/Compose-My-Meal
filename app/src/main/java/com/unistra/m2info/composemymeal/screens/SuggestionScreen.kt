@@ -112,7 +112,7 @@ fun SuggestionScreen(navController: NavController, sheetStack: SheetStack) {
                         ) {
                             IconButton(
                                 onClick = {
-                                    randomMeal?.let { FavoritesManager.toggleFavorite(it) }
+                                    randomMeal?.let { FavoritesManager.toggleFavorite(context, it) }
                                 },
                                 modifier = Modifier.size(40.dp)
                             ) {

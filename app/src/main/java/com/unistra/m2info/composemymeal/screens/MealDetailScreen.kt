@@ -76,7 +76,7 @@ fun MealDetailScreen(mealId: String, viewModel: MealDetailViewModel = viewModel(
                     // Like Button
                     IconButton(
                         onClick = {
-                            FavoritesManager.toggleFavorite(it)
+                            FavoritesManager.toggleFavorite(context, it) // Pass context here
                         },
                         modifier = Modifier.size(40.dp)
                     ) {
@@ -143,3 +143,4 @@ fun MealDetailScreen(mealId: String, viewModel: MealDetailViewModel = viewModel(
         )
     }
 }
+
