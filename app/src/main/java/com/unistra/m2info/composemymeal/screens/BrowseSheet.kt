@@ -29,11 +29,17 @@ import com.unistra.m2info.composemymeal.screens.CountriesSheet
 import com.unistra.m2info.composemymeal.screens.IngredientsSheet
 
 @Composable
-fun BrowseSheet(sheetStack: SheetStack, viewModel: IngredientsViewModel = remember { IngredientsViewModel() }) {
-    val ingredients = viewModel.ingredients.value
+fun BrowseSheet(
+    sheetStack: SheetStack,
+    ingredientViewModel: IngredientsViewModel = remember { IngredientsViewModel() },
+    countryViewModel: CountriesViewModel = remember { CountriesViewModel() }
+) {
+    val ingredients = ingredientViewModel.ingredients.value
+    val countries = countryViewModel.countries.value
 
     LaunchedEffect(Unit) {
-        viewModel.fetchIngredients()
+        ingredientViewModel.fetchIngredients()
+        countryViewModel.fetchCountries()
     }
     Column(
         modifier = Modifier
@@ -107,30 +113,63 @@ fun BrowseSheet(sheetStack: SheetStack, viewModel: IngredientsViewModel = rememb
             }
         }
 
-        Row(
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(6.dp)
-        ){
-            Text(text = "Countries",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.SemiBold,
-                modifier = Modifier
-                .clickable { sheetStack.push({ CountriesSheet(sheetStack)}) }
+        if (countries.isNotEmpty()) {
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(6.dp)
+            ){
+                Text(text = "Countries",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    modifier = Modifier
+                        .clickable { sheetStack.push { CountriesSheet(sheetStack, countries.first()) } }
+                )
+                Icon(imageVector = Icons.Default.KeyboardArrowRight, contentDescription = "More", Modifier.size(30.dp))
+            }
+        } else {
+            Text(
+                text = "Loading countries...",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Light,
+                modifier = Modifier.padding(8.dp)
             )
-            Icon(imageVector = Icons.Default.KeyboardArrowRight, contentDescription = "More", Modifier.size(30.dp))
         }
-        CategoryGrid(
-            items = listOf(
-                R.drawable.france to "France",
-                R.drawable.italy to "Italy",
-                R.drawable.spain to "Spain",
-                R.drawable.japan to "Japan",
-                R.drawable.india to "India",
-                R.drawable.mexico to "Mexico"
-            )
+
+        val countryIcons = listOf(
+            R.drawable.france to "French",
+            R.drawable.italy to "Italian",
+            R.drawable.spain to "Spanish",
+            R.drawable.japan to "Japanese",
+            R.drawable.india to "Indian",
+            R.drawable.mexico to "Mexican"
+        )
+
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(3),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = Modifier.fillMaxWidth()
         ) {
-            println("Clicked on country: $it")
+            items(countryIcons) { (iconRes, country) ->
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier
+                        .clickable { sheetStack.push { CountriesSheet(sheetStack, country) } }
+                        .padding(8.dp)
+                ) {
+                    Image(
+                        painter = painterResource(id = iconRes),
+                        contentDescription = country,
+                        modifier = Modifier.size(64.dp)
+                    )
+                    Text(
+                        text = country,
+                        fontSize = 14.sp,
+                        modifier = Modifier.padding(top = 4.dp)
+                    )
+                }
+            }
         }
     }
 }

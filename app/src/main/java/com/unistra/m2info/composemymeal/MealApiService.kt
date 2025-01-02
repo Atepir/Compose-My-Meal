@@ -15,7 +15,13 @@ interface MealApiService {
     @GET("filter.php")
     fun getMealsByIngredient(@Query("i") ingredient: String): Call<MealDetailsResponse>
 
+    @GET("filter.php")
+    fun getMealsByCountry(@Query("a") ingredient: String): Call<MealDetailsResponse>
+
     @GET("list.php?i=list")
     fun getIngredients(): Call<IngredientListResponse>
+
+    @GET("list.php?a=list")
+    fun getCountries(): Call<CountryListResponse>
 
 }
