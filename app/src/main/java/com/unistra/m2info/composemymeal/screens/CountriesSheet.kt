@@ -75,7 +75,12 @@ fun CountriesSheet(sheetStack: SheetStack, defaultCountry: String = "France") {
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(meals.filter { it.strMeal.contains(searchText, ignoreCase = true) }) { meal ->
-                    MealCard(meal = meal, onClick = { println("Clicked on ${meal.strMeal}") })
+                    MealCard(
+                        meal = meal,
+                        onClick = {
+                            sheetStack.push { MealDetailScreen(mealId = meal.idMeal) }
+                        }
+                    )
                 }
             }
         }
