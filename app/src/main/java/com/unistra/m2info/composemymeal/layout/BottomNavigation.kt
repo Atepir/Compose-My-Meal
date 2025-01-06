@@ -29,7 +29,10 @@ fun BottomNavigation(sheetStack: SheetStack, navController: NavController) { // 
         modifier = Modifier.fillMaxWidth()
     ) {
         FloatingActionButton(
-            onClick = { sheetStack.push { BrowseSheet(sheetStack) } },
+            onClick = {
+                println("Browse clicked")
+                sheetStack.push { BrowseSheet(sheetStack) }
+            },
             containerColor = Color.DarkGray,
             contentColor = Color.White,
             modifier = Modifier.padding(12.dp)
@@ -43,6 +46,7 @@ fun BottomNavigation(sheetStack: SheetStack, navController: NavController) { // 
                 Icon(imageVector = Icons.Default.Search, contentDescription = "Search", Modifier.size(30.dp))
             }
         }
+
         FloatingActionButton(
             onClick = { navController.navigate("suggestion") }, // Naviguer vers "suggestion"
             containerColor = Color.DarkGray,
