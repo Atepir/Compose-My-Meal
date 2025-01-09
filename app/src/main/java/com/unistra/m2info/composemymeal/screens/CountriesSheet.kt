@@ -30,7 +30,6 @@ fun CountriesSheet(sheetStack: SheetStack, defaultCountry: String = "France") {
 
     LaunchedEffect(Unit) {
         viewModel.fetchCountries()
-
     }
 
     LaunchedEffect(countries, defaultCountry) {
@@ -59,6 +58,8 @@ fun CountriesSheet(sheetStack: SheetStack, defaultCountry: String = "France") {
             Text("Loading countries...", modifier = Modifier.padding(16.dp))
         }
 
+        Spacer(modifier = Modifier.height(16.dp))
+
         if (isLoading) {
             Box(
                 modifier = Modifier.fillMaxSize(),
@@ -67,32 +68,36 @@ fun CountriesSheet(sheetStack: SheetStack, defaultCountry: String = "France") {
                 CircularProgressIndicator()
             }
         } else {
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                modifier = Modifier.weight(1f),
-                contentPadding = PaddingValues(vertical = 8.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                items(meals.filter { it.strMeal.contains(searchText, ignoreCase = true) }) { meal ->
-                    MealCard(
-                        meal = meal,
-                        onClick = {
-                            sheetStack.push { MealDetailScreen(mealId = meal.idMeal) }
-                        }
-                    )
+            Box(modifier = Modifier.weight(1f)) {
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding = PaddingValues(vertical = 8.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    items(meals.filter { it.strMeal.contains(searchText, ignoreCase = true) }) { meal ->
+                        MealCard(
+                            meal = meal,
+                            onClick = {
+                                sheetStack.push { MealDetailScreen(mealId = meal.idMeal) }
+                            }
+                        )
+                    }
                 }
             }
-        }
 
-        OutlinedTextField(
-            value = searchText,
-            onValueChange = { searchText = it },
-            placeholder = { Text("Search meals") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 16.dp)
-        )
+            // Barre de recherche en bas
+            OutlinedTextField(
+                value = searchText,
+                onValueChange = { searchText = it },
+                placeholder = { Text("Search meals") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp)
+            )
+        }
     }
 }
+
 
