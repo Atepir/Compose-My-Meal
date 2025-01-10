@@ -1,12 +1,16 @@
-package com.unistra.m2info.composemymeal.screens
+package com.unistra.m2info.composemymeal.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -15,16 +19,14 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.unistra.m2info.composemymeal.FavoritesManager
-import com.unistra.m2info.composemymeal.MealDetail
 import com.unistra.m2info.composemymeal.MealDetailViewModel
 import com.unistra.m2info.composemymeal.R
 import com.unistra.m2info.composemymeal.ShareDialog
-import com.unistra.m2info.composemymeal.utils.shareViaFacebook
-import com.unistra.m2info.composemymeal.utils.shareViaSms
+import com.unistra.m2info.composemymeal.layout.SheetStack
 
 
 @Composable
-fun MealDetailScreen(mealId: String, viewModel: MealDetailViewModel = viewModel()) {
+fun MealDetailScreen(mealId: String, sheetStack: SheetStack? = null, viewModel: MealDetailViewModel = viewModel()) {
     val context = LocalContext.current
     var showShareDialog by remember { mutableStateOf(false) }
 
@@ -50,80 +52,85 @@ fun MealDetailScreen(mealId: String, viewModel: MealDetailViewModel = viewModel(
                     .padding(16.dp)
                     .verticalScroll(rememberScrollState())
             ) {
-                Text(
-                    text = it.strMeal,
-                    style = MaterialTheme.typography.headlineLarge.copy(
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onSecondaryContainer
-                    ),
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(8.dp)
-                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 2.dp).padding(bottom = 8.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = meal.strMeal,
+                        style = MaterialTheme.typography.headlineSmall.copy(
+                            fontWeight = FontWeight.Bold,
+                        ),
+                        textAlign = TextAlign.Left,
+                        modifier = Modifier.fillMaxWidth(0.8f)
+                    )
+                    Row(){
+                        IconButton(
+                            onClick = {
+                                meal?.let { FavoritesManager.toggleFavorite(context, it) }
+                            },
+                            modifier = Modifier.size(24.dp)
+                        ) {
+                            Icon(
+                                painter = painterResource(
+                                    id = if (meal?.let { FavoritesManager.isFavorite(it) } == true)
+                                        R.drawable.heart_red
+                                    else
+                                        R.drawable.heart
+                                ),
+                                contentDescription = "Like",
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.width(8.dp))
+
+                        IconButton(
+                            onClick = { showShareDialog = true },
+                            modifier = Modifier.size(24.dp)
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.share),
+                                contentDescription = "Share",
+                            )
+                        }
+                    }
+                }
 
                 AsyncImage(
                     model = it.strMealThumb,
                     contentDescription = "Meal Image",
+                    contentScale = ContentScale.FillWidth,
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(200.dp)
+                        .clip(RoundedCornerShape(8.dp))
                 )
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 16.dp),
-                    horizontalArrangement = Arrangement.Start
-                ) {
-                    // Like Button
-                    IconButton(
-                        onClick = {
-                            FavoritesManager.toggleFavorite(context, it) // Pass context here
-                        },
-                        modifier = Modifier.size(40.dp)
-                    ) {
-                        Icon(
-                            painter = painterResource(
-                                id = if (FavoritesManager.isFavorite(it)) R.drawable.heart_red else R.drawable.heart
-                            ),
-                            contentDescription = "Like",
-                        )
-                    }
 
-                    Spacer(modifier = Modifier.width(16.dp))
-
-                    IconButton(
-                        onClick = { showShareDialog = true },
-                        modifier = Modifier.size(40.dp)
-                    ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.share),
-                            contentDescription = "Share",
-                        )
-                    }
-                }
+                Spacer(modifier = Modifier.padding(bottom = 12.dp))
 
                 Text(
                     text = "Ingredients",
                     style = MaterialTheme.typography.titleLarge.copy(
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.primary
                     ),
-                    modifier = Modifier.padding(vertical = 8.dp)
+                    modifier = Modifier.padding(vertical = 12.dp)
                 )
                 it.getIngredientsWithMeasures().forEach { (ingredient, measure) ->
-                    Text(
-                        text = "• $ingredient - $measure",
-                        style = MaterialTheme.typography.bodyMedium,
-                        modifier = Modifier.padding(vertical = 2.dp)
-                    )
+                    if (ingredient != null && measure != null) {
+                        IngredientChip(ingredient, measure)
+                    }
                 }
+
+                Spacer(modifier = Modifier.padding(bottom = 12.dp))
 
                 Text(
                     text = "Instructions",
                     style = MaterialTheme.typography.titleLarge.copy(
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.primary
                     ),
-                    modifier = Modifier.padding(vertical = 8.dp)
+                    modifier = Modifier.padding(vertical = 12.dp)
                 )
                 Text(
                     text = it.strInstructions,

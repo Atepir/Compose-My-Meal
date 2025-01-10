@@ -1,4 +1,4 @@
-package com.unistra.m2info.composemymeal.screens
+package com.unistra.m2info.composemymeal.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -35,7 +35,7 @@ fun MealCard(meal: MealDetail, onClick: () -> Unit) {
                 text = meal.strMeal,
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(8.dp),
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Left
             )
         }
     }

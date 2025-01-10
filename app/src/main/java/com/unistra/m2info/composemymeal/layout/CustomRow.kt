@@ -38,7 +38,7 @@ fun CustomRow(
                     Text(
                         text = title,
                         fontWeight = FontWeight.Bold,
-                        fontSize = 24.sp, // Set your desired font size
+                        fontSize = 22.sp,
                         color = if (index != selectedIndex) Color.LightGray else Color.Black
                     )
                 }

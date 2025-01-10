@@ -1,4 +1,4 @@
-package com.unistra.m2info.composemymeal.screens
+package com.unistra.m2info.composemymeal.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells

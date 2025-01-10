@@ -1,33 +1,29 @@
 package com.unistra.m2info.composemymeal
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
-import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavHost
+import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.unistra.m2info.composemymeal.layout.CustomRow
-import com.unistra.m2info.composemymeal.layout.Sheet
 import com.unistra.m2info.composemymeal.layout.SheetStack
 import com.unistra.m2info.composemymeal.layout.SheetStackManager
-import com.unistra.m2info.composemymeal.screens.FavoritesScreen
-import com.unistra.m2info.composemymeal.screens.MealDetailScreen
-import com.unistra.m2info.composemymeal.screens.SuggestionScreen
+import com.unistra.m2info.composemymeal.components.FavoritesScreen
+import com.unistra.m2info.composemymeal.components.MealDetailScreen
+import com.unistra.m2info.composemymeal.components.SuggestionScreen
 
 
 @Composable
@@ -58,15 +54,16 @@ fun AppNavHost() {
                 selectedTabIndex = index
             }
         )
-
+    }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(WindowInsets.statusBars.asPaddingValues())
+    ) {
         SheetStackManager(sheetStack = sheetStack) {
             NavHost(navController = navController, startDestination = "suggestion") {
                 composable("suggestion") { SuggestionScreen(navController, sheetStack) }
                 composable("favorites") { FavoritesScreen(navController, sheetStack) }
-                composable("mealDetail/{mealId}") { backStackEntry ->
-                    val mealId = backStackEntry.arguments?.getString("mealId")
-                    mealId?.let { MealDetailScreen(mealId = it) }
-                }
             }
         }
     }

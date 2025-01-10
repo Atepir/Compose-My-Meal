@@ -18,9 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.unistra.m2info.composemymeal.BrowseSheet
-import com.unistra.m2info.composemymeal.screens.SuggestionScreen
 
 @Composable
 fun BottomNavigation(sheetStack: SheetStack, navController: NavController) { // Passer NavController
