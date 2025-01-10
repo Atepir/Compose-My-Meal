@@ -40,7 +40,7 @@ fun FavoritesScreen(navController: NavController, sheetStack: SheetStack) {
                     onHorizontalDrag = { _, dragAmount ->
                         if (!handled) {
                             when {
-                                dragAmount < 50 -> {
+                                dragAmount > 50 -> {
                                     navController.navigate("suggestion")
                                     handled = true
                                 }
@@ -58,9 +58,8 @@ fun FavoritesScreen(navController: NavController, sheetStack: SheetStack) {
             }
         } else {
             LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
+                columns = GridCells.Fixed(1),
                 modifier = Modifier.padding(8.dp).padding(bottom = 88.dp), // For BottomNavigation
-                contentPadding = PaddingValues(8.dp)
             ) {
                 items(favorites) { meal ->
                     MealCard(meal = meal, onClick = {

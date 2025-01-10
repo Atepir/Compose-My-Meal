@@ -1,5 +1,6 @@
 package com.unistra.m2info.composemymeal.components
 
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -14,6 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.input.pointer.pointerInput
 import com.unistra.m2info.composemymeal.CountriesViewModel
 import com.unistra.m2info.composemymeal.layout.CustomRow
 import com.unistra.m2info.composemymeal.layout.SheetStack
@@ -27,6 +29,12 @@ fun CountriesSheet(sheetStack: SheetStack, defaultCountry: String = "France") {
     val countries = viewModel.countries.value
     var selectedTabIndex by remember { mutableStateOf(0) }
     var searchText by remember { mutableStateOf("") }
+    var handled by remember { mutableStateOf(false) }
+
+    fun onTabSelected(index: Int) {
+        selectedTabIndex = index
+        viewModel.fetchMealsByCountry(countries[index])
+    }
 
     LaunchedEffect(Unit) {
         viewModel.fetchCountries()
@@ -45,15 +53,30 @@ fun CountriesSheet(sheetStack: SheetStack, defaultCountry: String = "France") {
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
+            .pointerInput(Unit) {
+                detectHorizontalDragGestures (
+                    onDragEnd = { handled = false }, // Reset the flag when the drag ends
+                    onHorizontalDrag = { _, dragAmount ->
+                        if (!handled) {
+                            when {
+                                dragAmount < -50 && selectedTabIndex < countries.size - 1 -> {
+                                    onTabSelected(selectedTabIndex + 1)
+                                    handled = true
+                                }
+                                dragAmount > 50 && selectedTabIndex > 0 -> {
+                                    onTabSelected(selectedTabIndex - 1)
+                                    handled = true
+                                }
+                            }
+                        }
+                    })
+            }
     ) {
         if (countries.isNotEmpty()) {
             CustomRow(
                 items = countries,
                 selectedIndex = selectedTabIndex,
-                onTabSelected = { index ->
-                    selectedTabIndex = index
-                    viewModel.fetchMealsByCountry(countries[index])
-                }
+                onTabSelected = {it -> onTabSelected(it)}
             )
         } else {
             Text("Loading countries...", modifier = Modifier.padding(16.dp))
@@ -68,11 +91,8 @@ fun CountriesSheet(sheetStack: SheetStack, defaultCountry: String = "France") {
             }
         } else {
             LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
+                columns = GridCells.Fixed(1),
                 modifier = Modifier.weight(1f),
-                contentPadding = PaddingValues(vertical = 8.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(meals.filter { it.strMeal.contains(searchText, ignoreCase = true) }) { meal ->
                     MealCard(

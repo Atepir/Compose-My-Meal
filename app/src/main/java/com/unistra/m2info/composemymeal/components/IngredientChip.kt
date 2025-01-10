@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.material3.*
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 
 @Composable
@@ -19,7 +20,7 @@ fun IngredientChip(ingredient: String, measure: String) {
             .fillMaxWidth()
             .padding(vertical = 1.dp)
             .background(
-                color = MaterialTheme.colorScheme.surfaceColorAtElevation(4.dp),
+                color = Color(0x10000000),
                 shape = RoundedCornerShape(6.dp)
             )
             .padding(4.dp),
@@ -28,6 +29,7 @@ fun IngredientChip(ingredient: String, measure: String) {
         Text(
             text = ingredient.replaceFirstChar { it.uppercase() },
             style = MaterialTheme.typography.bodyMedium,
+            fontWeight = FontWeight.Medium,
             modifier = Modifier.weight(1f),
         )
         Spacer(modifier = Modifier.width(16.dp))

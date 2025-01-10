@@ -94,11 +94,8 @@ fun IngredientsSheet(sheetStack: SheetStack, defaultIngredient: String = "Tomato
             }
         } else {
             LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
+                columns = GridCells.Fixed(1),
                 modifier = Modifier.weight(1f),
-                contentPadding = PaddingValues(vertical = 8.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(meals.filter { it.strMeal.contains(searchText, ignoreCase = true) }) { meal ->
                     MealCard(
