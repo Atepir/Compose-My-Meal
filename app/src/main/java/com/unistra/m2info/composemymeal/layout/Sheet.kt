@@ -35,13 +35,6 @@ fun Sheet(
     ModalBottomSheetLayout(
         sheetState = sheetState,
         sheetContent = {
-            Icon(
-                painter = painterResource(id = R.drawable.sheet_handle),
-                contentDescription = "Bottom Sheet Handle",
-                modifier = Modifier
-                    .size(24.dp)
-                    .padding(bottom = 8.dp)
-            )
             // Content of the sheet
             content()
         },
@@ -49,7 +42,6 @@ fun Sheet(
         sheetShape = RoundedCornerShape(16.dp),
         sheetGesturesEnabled = true,
         modifier = Modifier.padding(top = 16.dp),
-        m
     ) {
         // Optionally, main screen content goes here
     }

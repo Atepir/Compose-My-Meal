@@ -1,6 +1,7 @@
 package com.unistra.m2info.composemymeal.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,6 +30,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -50,11 +52,29 @@ fun SuggestionScreen(navController: NavController, sheetStack: SheetStack) {
     val randomMeal by viewModel.randomMeal
     val isLoading by viewModel.isLoading
 
+    var handled by remember { mutableStateOf(false) }
+
     LaunchedEffect(Unit) {
         viewModel.fetchRandomMeal()
     }
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(
+        modifier = Modifier.fillMaxSize()
+            .pointerInput(Unit) {
+                detectHorizontalDragGestures(
+                    onDragEnd = { handled = false }, // Reset the flag when the drag ends
+                    onHorizontalDrag = { _, dragAmount ->
+                        if (!handled) {
+                            when {
+                                dragAmount < -50 -> {
+                                    navController.navigate("favorites")
+                                    handled = true
+                                }
+                            }
+                        }
+                    })
+            }
+    ) {
         if (isLoading) {
             Box(
                 modifier = Modifier

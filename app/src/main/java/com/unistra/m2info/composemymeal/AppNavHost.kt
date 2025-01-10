@@ -1,5 +1,8 @@
 package com.unistra.m2info.composemymeal
 
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -24,7 +27,7 @@ import com.unistra.m2info.composemymeal.layout.SheetStackManager
 import com.unistra.m2info.composemymeal.components.FavoritesScreen
 import com.unistra.m2info.composemymeal.components.MealDetailScreen
 import com.unistra.m2info.composemymeal.components.SuggestionScreen
-
+import androidx.compose.ui.input.pointer.pointerInput
 
 @Composable
 fun AppNavHost() {
@@ -43,18 +46,20 @@ fun AppNavHost() {
     ) {
         val pages = listOf("Suggestion", "Favorites")
         var selectedTabIndex by remember { mutableStateOf(0) }
-        CustomRow(
-            items = pages,
-            selectedIndex = selectedTabIndex,
-            onTabSelected = { index ->
-                run {
-                    if (index == 0) navController.navigate("suggestion")
-                    else navController.navigate("favorites")
-                }
-                selectedTabIndex = index
-            },
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
+        navController.currentDestination?.let {
+            CustomRow(
+                items = pages,
+                selectedIndex = if (it.route == "favorites") 1 else 0,
+                onTabSelected = { index ->
+                    run {
+                        if (index == 0) navController.navigate("suggestion")
+                        else navController.navigate("favorites")
+                    }
+                    selectedTabIndex = index
+                },
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
+        }
     }
     Column(
         modifier = Modifier
@@ -62,9 +67,17 @@ fun AppNavHost() {
             .padding(WindowInsets.statusBars.asPaddingValues())
     ) {
         SheetStackManager(sheetStack = sheetStack) {
-            NavHost(navController = navController, startDestination = "suggestion") {
-                composable("suggestion") { SuggestionScreen(navController, sheetStack) }
-                composable("favorites") { FavoritesScreen(navController, sheetStack) }
+            NavHost(
+                navController = navController, startDestination = "suggestion",
+            ) {
+                composable("suggestion",
+                    enterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.End, tween(200)) },
+                    exitTransition = { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Start, tween(10)) },
+                ) { SuggestionScreen(navController, sheetStack) }
+                composable("favorites",
+                    enterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Start, tween(200)) },
+                    exitTransition = { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.End, tween(10)) },
+                ) { FavoritesScreen(navController, sheetStack) }
             }
         }
     }
