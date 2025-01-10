@@ -52,7 +52,8 @@ fun AppNavHost() {
                     else navController.navigate("favorites")
                 }
                 selectedTabIndex = index
-            }
+            },
+            modifier = Modifier.padding(bottom = 16.dp)
         )
     }
     Column(

@@ -68,7 +68,7 @@ fun SuggestionScreen(navController: NavController, sheetStack: SheetStack) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(bottom = 64.dp, top = 36.dp), // Leave space for BottomNavigation, and status bar
+                    .padding(bottom = 88.dp, top = 40.dp), // Leave space for BottomNavigation, and status bar
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
                 randomMeal?.let { meal ->
@@ -200,6 +200,7 @@ fun SuggestionScreen(navController: NavController, sheetStack: SheetStack) {
                 .align(Alignment.BottomCenter)
                 .fillMaxWidth()
                 .padding(16.dp)
+                .padding(bottom = 24.dp)
         ) {
             BottomNavigation(sheetStack = sheetStack, navController = navController)
         }

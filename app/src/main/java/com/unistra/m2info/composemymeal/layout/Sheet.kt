@@ -1,11 +1,19 @@
 package com.unistra.m2info.composemymeal.layout
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.unistra.m2info.composemymeal.R
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -27,9 +35,21 @@ fun Sheet(
     ModalBottomSheetLayout(
         sheetState = sheetState,
         sheetContent = {
+            Icon(
+                painter = painterResource(id = R.drawable.sheet_handle),
+                contentDescription = "Bottom Sheet Handle",
+                modifier = Modifier
+                    .size(24.dp)
+                    .padding(bottom = 8.dp)
+            )
             // Content of the sheet
             content()
-        }
+        },
+        sheetElevation = 5.dp,
+        sheetShape = RoundedCornerShape(16.dp),
+        sheetGesturesEnabled = true,
+        modifier = Modifier.padding(top = 16.dp),
+        m
     ) {
         // Optionally, main screen content goes here
     }

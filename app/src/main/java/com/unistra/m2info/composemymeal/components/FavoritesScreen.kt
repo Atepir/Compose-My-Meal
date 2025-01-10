@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.paddingFrom
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -35,7 +36,7 @@ fun FavoritesScreen(navController: NavController, sheetStack: SheetStack) {
         } else {
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
-                modifier = Modifier.padding(8.dp),
+                modifier = Modifier.padding(8.dp).padding(bottom = 88.dp), // For BottomNavigation
                 contentPadding = PaddingValues(8.dp)
             ) {
                 items(favorites) { meal ->
@@ -51,6 +52,7 @@ fun FavoritesScreen(navController: NavController, sheetStack: SheetStack) {
                 .align(Alignment.BottomCenter)
                 .fillMaxWidth()
                 .padding(16.dp)
+                .padding(bottom = 24.dp)
         ) {
             BottomNavigation(sheetStack = sheetStack, navController = navController)
         }
