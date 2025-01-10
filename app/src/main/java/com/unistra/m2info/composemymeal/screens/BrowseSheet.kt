@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Search
@@ -15,7 +17,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,18 +39,28 @@ fun BrowseSheet(
     ingredientViewModel: IngredientsViewModel = remember { IngredientsViewModel() },
     countryViewModel: CountriesViewModel = remember { CountriesViewModel() }
 ) {
-    val ingredients = ingredientViewModel.ingredients.value
-    val countries = countryViewModel.countries.value
+    val popularIngredients = listOf("Tomato", "Carrot", "Broccoli", "Apple", "Orange", "Banana")
+    val popularCountries = listOf("France", "Italy", "Spain", "Japan", "India", "Mexico")
+    val allIngredients = ingredientViewModel.ingredients.value
+    val allCountries = countryViewModel.countries.value
+    var searchText by remember { mutableStateOf("") }
 
     LaunchedEffect(Unit) {
         ingredientViewModel.fetchIngredients()
         countryViewModel.fetchCountries()
     }
+
+    val filteredIngredients = if (searchText.isBlank()) popularIngredients else allIngredients.filter {
+        it.contains(searchText, ignoreCase = true)
+    }
+    val filteredCountries = if (searchText.isBlank()) popularCountries else allCountries.filter {
+        it.contains(searchText, ignoreCase = true)
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(24.dp)
+            .padding(16.dp)
     ) {
         Text(
             text = "Browse",
@@ -54,125 +69,133 @@ fun BrowseSheet(
             modifier = Modifier.align(Alignment.CenterHorizontally)
         )
 
-        if (ingredients.isNotEmpty()) {
-            Row(
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(6.dp)
-            ){
-                Text(text = "Ingredients",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    modifier = Modifier
-                        .clickable { sheetStack.push { IngredientsSheet(sheetStack, ingredients.first()) } }
-                )
-                Icon(imageVector = Icons.Default.KeyboardArrowRight, contentDescription = "More", Modifier.size(30.dp))
-            }
-        } else {
-            Text(
-                text = "Loading ingredients...",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Light,
-                modifier = Modifier.padding(8.dp)
-            )
-        }
-
-        val ingredientIcons = listOf(
-            R.drawable.tomato to "Tomato",
-            R.drawable.carrot to "Carrots",
-            R.drawable.broccoli to "Broccoli",
-            R.drawable.apple to "Apple",
-            R.drawable.orange to "Orange",
-            R.drawable.banana to "Banana"
-        )
-
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(3),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.fillMaxWidth()
+        // Conteneur scrollable pour les résultats
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .verticalScroll(rememberScrollState())
         ) {
-            items(ingredientIcons) { (iconRes, ingredient) ->
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier
-                        .clickable { sheetStack.push { IngredientsSheet(sheetStack, ingredient) } }
-                        .padding(8.dp)
+            // Grille des ingrédients
+            if (filteredIngredients.isNotEmpty()) {
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(6.dp)
                 ) {
-                    Image(
-                        painter = painterResource(id = iconRes),
-                        contentDescription = ingredient,
-                        modifier = Modifier.size(64.dp)
-                    )
                     Text(
-                        text = ingredient,
-                        fontSize = 14.sp,
-                        modifier = Modifier.padding(top = 4.dp)
+                        text = "Ingredients",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        modifier = Modifier
+                            .clickable { sheetStack.push { IngredientsSheet(sheetStack, filteredIngredients.first()) } }
                     )
+                    Icon(imageVector = Icons.Default.KeyboardArrowRight, contentDescription = "More", Modifier.size(30.dp))
+                }
+
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(3),
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    items(filteredIngredients) { ingredient ->
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            modifier = Modifier
+                                .clickable { sheetStack.push { IngredientsSheet(sheetStack, ingredient) } }
+                                .padding(8.dp)
+                        ) {
+                            val iconRes = when (ingredient) {
+                                "Tomato" -> R.drawable.tomato
+                                "Carrot" -> R.drawable.carrot
+                                "Broccoli" -> R.drawable.broccoli
+                                "Apple" -> R.drawable.apple
+                                "Orange" -> R.drawable.orange
+                                "Banana" -> R.drawable.banana
+                                else -> R.drawable.france
+                            }
+                            Image(
+                                painter = painterResource(id = iconRes),
+                                contentDescription = ingredient,
+                                modifier = Modifier.size(64.dp)
+                            )
+                            Text(
+                                text = ingredient,
+                                fontSize = 14.sp,
+                                modifier = Modifier.padding(top = 4.dp)
+                            )
+                        }
+                    }
+                }
+            }
+
+            // Grille des pays
+            if (filteredCountries.isNotEmpty()) {
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(6.dp)
+                ) {
+                    Text(
+                        text = "Countries",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        modifier = Modifier
+                            .clickable { sheetStack.push { CountriesSheet(sheetStack, filteredCountries.first()) } }
+                    )
+                    Icon(imageVector = Icons.Default.KeyboardArrowRight, contentDescription = "More", Modifier.size(30.dp))
+                }
+
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(3),
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    items(filteredCountries) { country ->
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            modifier = Modifier
+                                .clickable { sheetStack.push { CountriesSheet(sheetStack, country) } }
+                                .padding(8.dp)
+                        ) {
+                            val iconRes = when (country) {
+                                "France" -> R.drawable.france
+                                "Italy" -> R.drawable.italy
+                                "Spain" -> R.drawable.spain
+                                "Japan" -> R.drawable.japan
+                                "India" -> R.drawable.india
+                                "Mexico" -> R.drawable.mexico
+                                else -> R.drawable.france
+                            }
+                            Image(
+                                painter = painterResource(id = iconRes),
+                                contentDescription = country,
+                                modifier = Modifier.size(64.dp)
+                            )
+                            Text(
+                                text = country,
+                                fontSize = 14.sp,
+                                modifier = Modifier.padding(top = 4.dp)
+                            )
+                        }
+                    }
                 }
             }
         }
 
-        if (countries.isNotEmpty()) {
-            Row(
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(6.dp)
-            ){
-                Text(text = "Countries",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    modifier = Modifier
-                        .clickable { sheetStack.push { CountriesSheet(sheetStack, countries.first()) } }
-                )
-                Icon(imageVector = Icons.Default.KeyboardArrowRight, contentDescription = "More", Modifier.size(30.dp))
-            }
-        } else {
-            Text(
-                text = "Loading countries...",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Light,
-                modifier = Modifier.padding(8.dp)
-            )
-        }
-
-        val countryIcons = listOf(
-            R.drawable.france to "French",
-            R.drawable.italy to "Italian",
-            R.drawable.spain to "Spanish",
-            R.drawable.japan to "Japanese",
-            R.drawable.india to "Indian",
-            R.drawable.mexico to "Mexican"
+        // Barre de recherche
+        OutlinedTextField(
+            value = searchText,
+            onValueChange = { searchText = it },
+            placeholder = { Text("Search ingredients or countries") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp)
         )
-
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(3),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            items(countryIcons) { (iconRes, country) ->
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier
-                        .clickable { sheetStack.push { CountriesSheet(sheetStack, country) } }
-                        .padding(8.dp)
-                ) {
-                    Image(
-                        painter = painterResource(id = iconRes),
-                        contentDescription = country,
-                        modifier = Modifier.size(64.dp)
-                    )
-                    Text(
-                        text = country,
-                        fontSize = 14.sp,
-                        modifier = Modifier.padding(top = 4.dp)
-                    )
-                }
-            }
-        }
     }
 }
+
 
 @Composable
 fun CategoryGrid(
