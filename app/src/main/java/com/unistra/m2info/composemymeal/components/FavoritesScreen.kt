@@ -3,6 +3,7 @@ package com.unistra.m2info.composemymeal.components
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -59,7 +60,8 @@ fun FavoritesScreen(navController: NavController, sheetStack: SheetStack) {
         } else {
             LazyVerticalGrid(
                 columns = GridCells.Fixed(1),
-                modifier = Modifier.padding(8.dp).padding(bottom = 88.dp), // For BottomNavigation
+                modifier = Modifier.padding(8.dp),
+                contentPadding = PaddingValues(bottom = 80.dp)
             ) {
                 items(favorites) { meal ->
                     MealCard(meal = meal, onClick = {
@@ -68,16 +70,5 @@ fun FavoritesScreen(navController: NavController, sheetStack: SheetStack) {
                 }
             }
         }
-
-        Box(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .fillMaxWidth()
-                .padding(16.dp)
-                .padding(bottom = 24.dp)
-        ) {
-            BottomNavigation(sheetStack = sheetStack, navController = navController)
-        }
     }
-
 }

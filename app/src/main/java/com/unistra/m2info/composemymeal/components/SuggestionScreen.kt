@@ -89,8 +89,7 @@ fun SuggestionScreen(navController: NavController, sheetStack: SheetStack) {
         } else {
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(bottom = 88.dp), // Leave space for BottomNavigation
+                    .fillMaxSize(),
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
                 randomMeal?.let { meal ->
@@ -207,6 +206,7 @@ fun SuggestionScreen(navController: NavController, sheetStack: SheetStack) {
                             textAlign = TextAlign.Start,
                             style = MaterialTheme.typography.bodyMedium,
                             modifier = Modifier.padding(vertical = 8.dp)
+                                .padding(bottom = 80.dp) // Space for bottom navigation
                         )
                     }
                     if (showShareDialog) {
@@ -217,15 +217,7 @@ fun SuggestionScreen(navController: NavController, sheetStack: SheetStack) {
             }
         }
 
-        Box(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .fillMaxWidth()
-                .padding(16.dp)
-                .padding(bottom = 24.dp)
-        ) {
-            BottomNavigation(sheetStack = sheetStack, navController = navController)
-        }
+
     }
 }
 
