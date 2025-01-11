@@ -1,6 +1,7 @@
-package com.unistra.m2info.composemymeal.screens
+package com.unistra.m2info.composemymeal.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,16 +11,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.ClickableText
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -30,6 +29,9 @@ import com.unistra.m2info.composemymeal.layout.BottomNavigation
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 
@@ -50,16 +52,36 @@ fun SuggestionScreen(navController: NavController, sheetStack: SheetStack) {
     val randomMeal by viewModel.randomMeal
     val isLoading by viewModel.isLoading
 
+    var handled by remember { mutableStateOf(false) }
+
     LaunchedEffect(Unit) {
         viewModel.fetchRandomMeal()
     }
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(
+        modifier = Modifier.fillMaxSize()
+            .padding(top = 56.dp)
+            .pointerInput(Unit) {
+                detectHorizontalDragGestures(
+                    onDragEnd = { handled = false }, // Reset the flag when the drag ends
+                    onHorizontalDrag = { _, dragAmount ->
+                        if (!handled) {
+                            when {
+                                dragAmount < -50 -> {
+                                    navController.navigate("favorites")
+                                    handled = true
+                                }
+                            }
+                        }
+                    })
+            }
+    ) {
         if (isLoading) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color.LightGray),
+                    .background(Color.LightGray)
+                    .padding(bottom = 88.dp), // Leave space for BottomNavigation
                 contentAlignment = Alignment.Center
             ) {
                 CircularProgressIndicator()
@@ -67,8 +89,7 @@ fun SuggestionScreen(navController: NavController, sheetStack: SheetStack) {
         } else {
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(bottom = 64.dp), // Leave space for BottomNavigation
+                    .fillMaxSize(),
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
                 randomMeal?.let { meal ->
@@ -78,66 +99,69 @@ fun SuggestionScreen(navController: NavController, sheetStack: SheetStack) {
                             .verticalScroll(rememberScrollState()) // Make content scrollable
                             .padding(16.dp)
                     ) {
-                        Text(
-                            text = meal.strMeal,
-                            style = MaterialTheme.typography.headlineLarge.copy(
-                                fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colorScheme.onSecondaryContainer
-                            ),
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.padding(8.dp)
-                        )
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 2.dp).padding(bottom = 8.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(
+                                text = meal.strMeal,
+                                style = MaterialTheme.typography.headlineSmall.copy(
+                                    fontWeight = FontWeight.Bold,
+                                ),
+                                textAlign = TextAlign.Left,
+                                modifier = Modifier.fillMaxWidth(0.8f)
+                            )
+                            Row(){
+                                IconButton(
+                                    onClick = {
+                                        randomMeal?.let { FavoritesManager.toggleFavorite(context, it) }
+                                    },
+                                    modifier = Modifier.size(24.dp)
+                                ) {
+                                    Icon(
+                                        painter = painterResource(
+                                            id = if (randomMeal?.let { FavoritesManager.isFavorite(it) } == true)
+                                                R.drawable.heart_red
+                                            else
+                                                R.drawable.heart
+                                        ),
+                                        contentDescription = "Like",
+                                    )
+                                }
+
+                                Spacer(modifier = Modifier.width(8.dp))
+
+                                IconButton(
+                                    onClick = { showShareDialog = true },
+                                    modifier = Modifier.size(24.dp)
+                                ) {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.share),
+                                        contentDescription = "Share",
+                                    )
+                                }
+                            }
+                        }
+
+                        Spacer(modifier = Modifier.padding(bottom = 12.dp))
 
                         Box(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .height(150.dp),
+                                .fillMaxWidth(),
                             contentAlignment = Alignment.TopEnd
                         ) {
                             AsyncImage(
                                 model = meal.strMealThumb,
                                 contentDescription = "Meal Image",
+                                contentScale = ContentScale.FillWidth,
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .height(150.dp)
+                                    .height(200.dp)
                                     .padding(bottom = 8.dp)
+                                    .clip(RoundedCornerShape(8.dp))
                             )
-                        }
-
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 16.dp),
-                            horizontalArrangement = Arrangement.Start
-                        ) {
-                            IconButton(
-                                onClick = {
-                                    randomMeal?.let { FavoritesManager.toggleFavorite(context, it) }
-                                },
-                                modifier = Modifier.size(40.dp)
-                            ) {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (randomMeal?.let { FavoritesManager.isFavorite(it) } == true)
-                                            R.drawable.heart_red
-                                        else
-                                            R.drawable.heart
-                                    ),
-                                    contentDescription = "Like",
-                                )
-                            }
-
-                            Spacer(modifier = Modifier.width(16.dp))
-
-                            IconButton(
-                                onClick = { showShareDialog = true },
-                                modifier = Modifier.size(40.dp)
-                            ) {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.share),
-                                    contentDescription = "Share",
-                                )
-                            }
                         }
 
                         // Display ingredients with measures
@@ -145,9 +169,8 @@ fun SuggestionScreen(navController: NavController, sheetStack: SheetStack) {
                             text = "Ingredients",
                             style = MaterialTheme.typography.titleLarge.copy(
                                 fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colorScheme.primary
                             ),
-                            modifier = Modifier.padding(vertical = 8.dp)
+                            modifier = Modifier.padding(vertical = 12.dp)
                         )
 
                         randomMeal?.let { meal ->
@@ -160,23 +183,22 @@ fun SuggestionScreen(navController: NavController, sheetStack: SheetStack) {
                                 )
                             } else {
                                 ingredientsWithMeasures.forEach { (ingredient, measure) ->
-                                    Text(
-                                        text = "• $ingredient - $measure",
-                                        style = MaterialTheme.typography.bodyMedium,
-                                        modifier = Modifier.padding(vertical = 2.dp)
-                                    )
+                                    if (ingredient != null && measure != null) {
+                                        IngredientChip(ingredient, measure)
+                                    }
                                 }
                             }
                         }
+
+                        Spacer(modifier = Modifier.padding(bottom = 12.dp))
 
                         // Display instructions
                         Text(
                             text = "Instructions",
                             style = MaterialTheme.typography.titleLarge.copy(
                                 fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colorScheme.primary
                             ),
-                            modifier = Modifier.padding(vertical = 8.dp)
+                            modifier = Modifier.padding(vertical = 12.dp)
                         )
 
                         Text(
@@ -184,6 +206,7 @@ fun SuggestionScreen(navController: NavController, sheetStack: SheetStack) {
                             textAlign = TextAlign.Start,
                             style = MaterialTheme.typography.bodyMedium,
                             modifier = Modifier.padding(vertical = 8.dp)
+                                .padding(bottom = 80.dp) // Space for bottom navigation
                         )
                     }
                     if (showShareDialog) {
@@ -194,14 +217,7 @@ fun SuggestionScreen(navController: NavController, sheetStack: SheetStack) {
             }
         }
 
-        Box(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .fillMaxWidth()
-                .padding(16.dp)
-        ) {
-            BottomNavigation(sheetStack = sheetStack, navController = navController)
-        }
+
     }
 }
 

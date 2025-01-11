@@ -1,6 +1,7 @@
-package com.unistra.m2info.composemymeal.screens
+package com.unistra.m2info.composemymeal.components
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -21,6 +22,9 @@ import com.unistra.m2info.composemymeal.IngredientsViewModel
 import com.unistra.m2info.composemymeal.layout.CustomRow
 import com.unistra.m2info.composemymeal.layout.SheetStack
 import androidx.compose.material3.Text
+import androidx.compose.ui.input.pointer.pointerInput
+
+
 
 @Composable
 fun IngredientsSheet(sheetStack: SheetStack, defaultIngredient: String = "Tomato") {
@@ -30,6 +34,12 @@ fun IngredientsSheet(sheetStack: SheetStack, defaultIngredient: String = "Tomato
     val ingredients = viewModel.ingredients.value
     var selectedTabIndex by remember { mutableStateOf(0) }
     var searchText by remember { mutableStateOf("") }
+    var handled by remember { mutableStateOf(false) }
+
+    fun onTabSelected(index: Int) {
+        selectedTabIndex = index
+        viewModel.fetchMealsByIngredient(ingredients[index])
+    }
 
     LaunchedEffect(Unit) {
         viewModel.fetchIngredients()
@@ -47,15 +57,30 @@ fun IngredientsSheet(sheetStack: SheetStack, defaultIngredient: String = "Tomato
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
+            .pointerInput(Unit) {
+                detectHorizontalDragGestures (
+                    onDragEnd = { handled = false }, // Reset the flag when the drag ends
+                    onHorizontalDrag = { _, dragAmount ->
+                        if (!handled) {
+                            when {
+                                dragAmount < -50 && selectedTabIndex < ingredients.size - 1 -> {
+                                    onTabSelected(selectedTabIndex + 1)
+                                    handled = true
+                                }
+                                dragAmount > 50 && selectedTabIndex > 0 -> {
+                                    onTabSelected(selectedTabIndex - 1)
+                                    handled = true
+                                }
+                            }
+                        }
+                })
+            }
     ) {
         if (ingredients.isNotEmpty()) {
             CustomRow(
                 items = ingredients,
                 selectedIndex = selectedTabIndex,
-                onTabSelected = { index ->
-                    selectedTabIndex = index
-                    viewModel.fetchMealsByIngredient(ingredients[index])
-                }
+                onTabSelected = {it -> onTabSelected(it)}
             )
         } else {
             Text("Loading ingredients...", modifier = Modifier.padding(16.dp))
@@ -71,22 +96,17 @@ fun IngredientsSheet(sheetStack: SheetStack, defaultIngredient: String = "Tomato
                 CircularProgressIndicator()
             }
         } else {
-            Box(modifier = Modifier.weight(1f)) {
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(2),
-                    modifier = Modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(vertical = 8.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    items(meals) { meal ->
-                        MealCard(
-                            meal = meal,
-                            onClick = {
-                                sheetStack.push { MealDetailScreen(mealId = meal.idMeal) }
-                            }
-                        )
-                    }
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(1),
+                modifier = Modifier.weight(1f),
+            ) {
+                items(meals.filter { it.strMeal.contains(searchText, ignoreCase = true) }) { meal ->
+                    MealCard(
+                        meal = meal,
+                        onClick = {
+                            sheetStack.push { MealDetailScreen(mealId = meal.idMeal) }
+                        }
+                    )
                 }
             }
 
