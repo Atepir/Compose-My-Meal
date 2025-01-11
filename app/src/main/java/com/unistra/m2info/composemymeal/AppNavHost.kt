@@ -51,10 +51,8 @@ fun AppNavHost() {
         Column(
             modifier = Modifier
                 .align(Alignment.TopStart)
-                .padding(WindowInsets.statusBars.asPaddingValues())
+                .padding(top = 16.dp)
         ) {
-            Spacer(modifier = Modifier.fillMaxWidth().padding(8.dp))
-
             CustomRow(
                 items = pages,
                 selectedIndex = if (currentRoute == "favorites") 1 else 0,
@@ -75,7 +73,7 @@ fun AppNavHost() {
 
         Column(
             modifier = Modifier
-                .padding(top = 48.dp)
+                .padding(top = 32.dp)
         ) {
             SheetStackManager(sheetStack = sheetStack) {
                 NavHost(
