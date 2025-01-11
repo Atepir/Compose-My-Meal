@@ -1,5 +1,6 @@
 package com.unistra.m2info.composemymeal.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.*
@@ -22,6 +23,7 @@ import com.unistra.m2info.composemymeal.IngredientsViewModel
 import com.unistra.m2info.composemymeal.layout.CustomRow
 import com.unistra.m2info.composemymeal.layout.SheetStack
 import androidx.compose.material3.Text
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 
 
@@ -53,10 +55,11 @@ fun IngredientsSheet(sheetStack: SheetStack, defaultIngredient: String = "Tomato
         }
     }
 
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
+            .imePadding()
             .pointerInput(Unit) {
                 detectHorizontalDragGestures (
                     onDragEnd = { handled = false }, // Reset the flag when the drag ends
@@ -98,7 +101,7 @@ fun IngredientsSheet(sheetStack: SheetStack, defaultIngredient: String = "Tomato
         } else {
             LazyVerticalGrid(
                 columns = GridCells.Fixed(1),
-                modifier = Modifier.weight(1f),
+                modifier = Modifier.padding(top = 48.dp)
             ) {
                 items(meals.filter { it.strMeal.contains(searchText, ignoreCase = true) }) { meal ->
                     MealCard(
@@ -108,19 +111,16 @@ fun IngredientsSheet(sheetStack: SheetStack, defaultIngredient: String = "Tomato
                         }
                     )
                 }
+                item {
+                    Spacer(modifier = Modifier.padding(bottom = 48.dp))
+                }
             }
 
-            OutlinedTextField(
-                value = searchText,
-                onValueChange = {
-                    searchText = it
-                    viewModel.fetchMealsBySearchQuery(it)
-                },
-                placeholder = { Text("Search meals") },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 16.dp)
-            )
+            Box(
+                modifier = Modifier.align(Alignment.BottomCenter).background(Color.Transparent)
+            ) {
+                SearchInputField(searchText, { searchText = it })
+            }
         }
     }
 }

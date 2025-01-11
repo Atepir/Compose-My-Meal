@@ -1,5 +1,6 @@
 package com.unistra.m2info.composemymeal.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -15,6 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import com.unistra.m2info.composemymeal.CountriesViewModel
 import com.unistra.m2info.composemymeal.layout.CustomRow
@@ -48,10 +50,11 @@ fun CountriesSheet(sheetStack: SheetStack, defaultCountry: String = "France") {
         }
     }
 
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
+            .imePadding()
             .pointerInput(Unit) {
                 detectHorizontalDragGestures (
                     onDragEnd = { handled = false }, // Reset the flag when the drag ends
@@ -93,7 +96,7 @@ fun CountriesSheet(sheetStack: SheetStack, defaultCountry: String = "France") {
         } else {
             LazyVerticalGrid(
                 columns = GridCells.Fixed(1),
-                modifier = Modifier.weight(1f),
+                modifier = Modifier.padding(top = 48.dp)
             ) {
                 items(meals.filter { it.strMeal.contains(searchText, ignoreCase = true) }) { meal ->
                     MealCard(
@@ -103,16 +106,16 @@ fun CountriesSheet(sheetStack: SheetStack, defaultCountry: String = "France") {
                         }
                     )
                 }
+                item {
+                    Spacer(modifier = Modifier.padding(bottom = 48.dp))
+                }
             }
 
-            OutlinedTextField(
-                value = searchText,
-                onValueChange = { searchText = it },
-                placeholder = { Text("Search meals") },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 16.dp)
-            )
+            Box(
+                modifier = Modifier.align(Alignment.BottomCenter).background(Color.Transparent)
+            ) {
+                SearchInputField(searchText, { searchText = it })
+            }
         }
     }
 }
