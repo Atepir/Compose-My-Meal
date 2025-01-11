@@ -49,7 +49,10 @@ fun SheetStackManager(sheetStack: SheetStack, content: @Composable () -> Unit) {
                 content = sheetContent,
                 onDismissRequest = {
                     coroutineScope.launch {
-                        sheetStack.pop()
+                        // when dismissed, dismiss all
+                        while (!sheetStack.isEmpty) {
+                            sheetStack.pop()
+                        }
                     }
                 }
             )
