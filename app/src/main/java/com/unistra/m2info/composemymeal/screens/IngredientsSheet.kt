@@ -25,7 +25,7 @@ import androidx.compose.material3.Text
 @Composable
 fun IngredientsSheet(sheetStack: SheetStack, defaultIngredient: String = "Tomato") {
     val viewModel = remember { IngredientsViewModel() }
-    val meals = viewModel.filteredMeals.value // Meals filtered by search query
+    val meals = viewModel.filteredMeals.value
     val isLoading = viewModel.isLoading.value
     val ingredients = viewModel.ingredients.value
     var selectedTabIndex by remember { mutableStateOf(0) }
@@ -90,12 +90,11 @@ fun IngredientsSheet(sheetStack: SheetStack, defaultIngredient: String = "Tomato
                 }
             }
 
-            // Search bar at the bottom
             OutlinedTextField(
                 value = searchText,
                 onValueChange = {
                     searchText = it
-                    viewModel.fetchMealsBySearchQuery(it) // Apply the filter dynamically
+                    viewModel.fetchMealsBySearchQuery(it)
                 },
                 placeholder = { Text("Search meals") },
                 modifier = Modifier

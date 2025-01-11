@@ -87,7 +87,6 @@ fun CountriesSheet(sheetStack: SheetStack, defaultCountry: String = "France") {
                 }
             }
 
-            // Barre de recherche en bas
             OutlinedTextField(
                 value = searchText,
                 onValueChange = { searchText = it },
