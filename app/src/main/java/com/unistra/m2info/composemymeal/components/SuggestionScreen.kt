@@ -60,7 +60,7 @@ fun SuggestionScreen(navController: NavController, sheetStack: SheetStack) {
 
     Box(
         modifier = Modifier.fillMaxSize()
-            .padding(top = 56.dp)
+            .padding(top = 50.dp)
             .pointerInput(Unit) {
                 detectHorizontalDragGestures(
                     onDragEnd = { handled = false }, // Reset the flag when the drag ends
@@ -80,8 +80,7 @@ fun SuggestionScreen(navController: NavController, sheetStack: SheetStack) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color.LightGray)
-                    .padding(bottom = 88.dp), // Leave space for BottomNavigation
+                    .background(Color.LightGray),
                 contentAlignment = Alignment.Center
             ) {
                 CircularProgressIndicator()
@@ -93,131 +92,10 @@ fun SuggestionScreen(navController: NavController, sheetStack: SheetStack) {
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
                 randomMeal?.let { meal ->
-                    Column(
-                        modifier = Modifier
-                            .weight(1f)
-                            .verticalScroll(rememberScrollState()) // Make content scrollable
-                            .padding(16.dp)
-                    ) {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 2.dp).padding(bottom = 8.dp),
-                            horizontalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            Text(
-                                text = meal.strMeal,
-                                style = MaterialTheme.typography.headlineSmall.copy(
-                                    fontWeight = FontWeight.Bold,
-                                ),
-                                textAlign = TextAlign.Left,
-                                modifier = Modifier.fillMaxWidth(0.8f)
-                            )
-                            Row(){
-                                IconButton(
-                                    onClick = {
-                                        randomMeal?.let { FavoritesManager.toggleFavorite(context, it) }
-                                    },
-                                    modifier = Modifier.size(24.dp)
-                                ) {
-                                    Icon(
-                                        painter = painterResource(
-                                            id = if (randomMeal?.let { FavoritesManager.isFavorite(it) } == true)
-                                                R.drawable.heart_red
-                                            else
-                                                R.drawable.heart
-                                        ),
-                                        contentDescription = "Like",
-                                    )
-                                }
-
-                                Spacer(modifier = Modifier.width(8.dp))
-
-                                IconButton(
-                                    onClick = { showShareDialog = true },
-                                    modifier = Modifier.size(24.dp)
-                                ) {
-                                    Icon(
-                                        painter = painterResource(id = R.drawable.share),
-                                        contentDescription = "Share",
-                                    )
-                                }
-                            }
-                        }
-
-                        Spacer(modifier = Modifier.padding(bottom = 12.dp))
-
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth(),
-                            contentAlignment = Alignment.TopEnd
-                        ) {
-                            AsyncImage(
-                                model = meal.strMealThumb,
-                                contentDescription = "Meal Image",
-                                contentScale = ContentScale.FillWidth,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(200.dp)
-                                    .padding(bottom = 8.dp)
-                                    .clip(RoundedCornerShape(8.dp))
-                            )
-                        }
-
-                        // Display ingredients with measures
-                        Text(
-                            text = "Ingredients",
-                            style = MaterialTheme.typography.titleLarge.copy(
-                                fontWeight = FontWeight.Bold,
-                            ),
-                            modifier = Modifier.padding(vertical = 12.dp)
-                        )
-
-                        randomMeal?.let { meal ->
-                            val ingredientsWithMeasures = meal.getIngredientsWithMeasures()
-                            if (ingredientsWithMeasures.isEmpty()) {
-                                Text(
-                                    text = "No ingredients available.",
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    modifier = Modifier.padding(vertical = 8.dp)
-                                )
-                            } else {
-                                ingredientsWithMeasures.forEach { (ingredient, measure) ->
-                                    if (ingredient != null && measure != null) {
-                                        IngredientChip(ingredient, measure)
-                                    }
-                                }
-                            }
-                        }
-
-                        Spacer(modifier = Modifier.padding(bottom = 12.dp))
-
-                        // Display instructions
-                        Text(
-                            text = "Instructions",
-                            style = MaterialTheme.typography.titleLarge.copy(
-                                fontWeight = FontWeight.Bold,
-                            ),
-                            modifier = Modifier.padding(vertical = 12.dp)
-                        )
-
-                        Text(
-                            text = meal.strInstructions,
-                            textAlign = TextAlign.Start,
-                            style = MaterialTheme.typography.bodyMedium,
-                            modifier = Modifier.padding(vertical = 8.dp)
-                                .padding(bottom = 80.dp) // Space for bottom navigation
-                        )
-                    }
-                    if (showShareDialog) {
-                        ShareDialog(context = context, meal = meal, onDismiss = { showShareDialog = false })
-                    }
-
+                    MealDetailScreen(mealId = meal.idMeal)
                 } ?: Text("No meal data available.")
             }
         }
-
-
     }
 }
 
