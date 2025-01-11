@@ -2,6 +2,7 @@ package com.unistra.m2info.composemymeal.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -63,17 +64,20 @@ fun MealCard(meal: MealDetail, onClick: () -> Unit) {
                     Text(
                         text = meal.strMeal.replaceFirstChar { it.uppercase() },
                         style = MaterialTheme.typography.titleSmall,
+                        color = if (isSystemInDarkTheme()) Color.White else Color.Black
                     )
                     meal.strTags?.let {
                         Text(
                             text = it.replaceFirstChar { it.uppercase() },
                             style = MaterialTheme.typography.bodySmall,
+                            color = if (isSystemInDarkTheme()) Color.White else Color.Black
                         )
                     }
                     meal.strCategory?.let {
                         Text(
                             text = it.replaceFirstChar { it.uppercase() },
                             style = MaterialTheme.typography.bodySmall,
+                            color = if (isSystemInDarkTheme()) Color.White else Color.Black
                         )
                     }
                 }

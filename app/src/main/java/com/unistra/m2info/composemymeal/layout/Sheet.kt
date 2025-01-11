@@ -1,6 +1,7 @@
 package com.unistra.m2info.composemymeal.layout
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -42,6 +43,7 @@ fun Sheet(
         sheetShape = RoundedCornerShape(16.dp),
         sheetGesturesEnabled = true,
         modifier = Modifier.padding(top = 16.dp),
+        sheetBackgroundColor = if (isSystemInDarkTheme()) Color.Black else Color.White
     ) {
         // Optionally, main screen content goes here
     }
