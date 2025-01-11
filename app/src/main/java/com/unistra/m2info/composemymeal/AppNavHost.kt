@@ -51,7 +51,7 @@ fun AppNavHost() {
         Column(
             modifier = Modifier
                 .align(Alignment.TopStart)
-                .padding(top = 16.dp)
+                .padding(top = 24.dp)
         ) {
             CustomRow(
                 items = pages,
