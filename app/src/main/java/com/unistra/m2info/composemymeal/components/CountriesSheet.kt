@@ -38,7 +38,6 @@ fun CountriesSheet(sheetStack: SheetStack, defaultCountry: String = "France") {
 
     LaunchedEffect(Unit) {
         viewModel.fetchCountries()
-
     }
 
     LaunchedEffect(countries, defaultCountry) {
@@ -82,6 +81,8 @@ fun CountriesSheet(sheetStack: SheetStack, defaultCountry: String = "France") {
             Text("Loading countries...", modifier = Modifier.padding(16.dp))
         }
 
+        Spacer(modifier = Modifier.height(16.dp))
+
         if (isLoading) {
             Box(
                 modifier = Modifier.fillMaxSize(),
@@ -103,16 +104,17 @@ fun CountriesSheet(sheetStack: SheetStack, defaultCountry: String = "France") {
                     )
                 }
             }
-        }
 
-        OutlinedTextField(
-            value = searchText,
-            onValueChange = { searchText = it },
-            placeholder = { Text("Search meals") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 16.dp)
-        )
+            OutlinedTextField(
+                value = searchText,
+                onValueChange = { searchText = it },
+                placeholder = { Text("Search meals") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp)
+            )
+        }
     }
 }
+
 

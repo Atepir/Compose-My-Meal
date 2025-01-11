@@ -9,6 +9,7 @@ import retrofit2.Response
 class IngredientsViewModel : ViewModel() {
 
     val meals = mutableStateOf<List<MealDetail>>(emptyList())
+    val filteredMeals = mutableStateOf<List<MealDetail>>(emptyList())
     val isLoading = mutableStateOf(false)
     val ingredients = mutableStateOf<List<String>>(emptyList())
 
@@ -20,6 +21,7 @@ class IngredientsViewModel : ViewModel() {
                 isLoading.value = false
                 if (response.isSuccessful) {
                     meals.value = response.body()?.meals ?: emptyList()
+                    filteredMeals.value = meals.value
                 }
             }
 
@@ -29,26 +31,26 @@ class IngredientsViewModel : ViewModel() {
         })
     }
 
+    fun fetchMealsBySearchQuery(query: String) {
+        filteredMeals.value = if (query.isBlank()) {
+            meals.value
+        } else {
+            meals.value.filter { it.strMeal.contains(query, ignoreCase = true) }
+        }
+    }
+
     fun fetchIngredients() {
         RetrofitInstance.api.getIngredients().enqueue(object : Callback<IngredientListResponse> {
-            override fun onResponse(
-                call: Call<IngredientListResponse>,
-                response: Response<IngredientListResponse>
-            ) {
+            override fun onResponse(call: Call<IngredientListResponse>, response: Response<IngredientListResponse>) {
                 if (response.isSuccessful) {
                     val ingredientsList = response.body()?.meals?.map { it.strIngredient }
                     ingredients.value = ingredientsList ?: emptyList()
-                    println("Ingredients loaded: $ingredientsList")
-                } else {
-                    println("API response unsuccessful: ${response.errorBody()?.string()}")
                 }
             }
 
-            override fun onFailure(call: Call<IngredientListResponse>, t: Throwable) {
-                println("API call failed: ${t.localizedMessage}")
-            }
+            override fun onFailure(call: Call<IngredientListResponse>, t: Throwable) {}
         })
     }
-
 }
+
 

@@ -94,7 +94,7 @@ fun MealCard(meal: MealDetail, onClick: () -> Unit) {
                             id = if (meal?.let { FavoritesManager.isFavorite(it) } == true)
                                 R.drawable.heart_red
                             else
-                                R.drawable.heart
+                                R.drawable.heart,
                         ),
                         contentDescription = "Like",
                     )
