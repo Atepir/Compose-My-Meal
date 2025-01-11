@@ -1,6 +1,8 @@
 package com.unistra.m2info.composemymeal.layout
 
+import android.content.res.Resources.Theme
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material3.ScrollableTabRow
@@ -12,6 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.unistra.m2info.composemymeal.ui.theme.ComposeMyMealTheme
 import kotlinx.coroutines.selects.select
 
 @Composable
@@ -39,7 +42,12 @@ fun CustomRow(
                         text = title,
                         fontWeight = FontWeight.Bold,
                         fontSize = 22.sp,
-                        color = if (index != selectedIndex) Color.LightGray else Color.Black
+                        color = if (isSystemInDarkTheme())
+                                    if (index != selectedIndex)
+                                        Color.LightGray else Color.White
+                                else
+                                    if (index != selectedIndex)
+                                        Color.LightGray else Color.Black
                     )
                 }
             )

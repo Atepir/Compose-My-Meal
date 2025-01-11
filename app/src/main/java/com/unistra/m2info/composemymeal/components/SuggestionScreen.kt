@@ -60,6 +60,7 @@ fun SuggestionScreen(navController: NavController, sheetStack: SheetStack) {
 
     Box(
         modifier = Modifier.fillMaxSize()
+            .padding(top = 56.dp)
             .pointerInput(Unit) {
                 detectHorizontalDragGestures(
                     onDragEnd = { handled = false }, // Reset the flag when the drag ends
@@ -79,7 +80,8 @@ fun SuggestionScreen(navController: NavController, sheetStack: SheetStack) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color.LightGray),
+                    .background(Color.LightGray)
+                    .padding(bottom = 88.dp), // Leave space for BottomNavigation
                 contentAlignment = Alignment.Center
             ) {
                 CircularProgressIndicator()
@@ -88,7 +90,7 @@ fun SuggestionScreen(navController: NavController, sheetStack: SheetStack) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(bottom = 88.dp, top = 40.dp), // Leave space for BottomNavigation, and status bar
+                    .padding(bottom = 88.dp), // Leave space for BottomNavigation
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
                 randomMeal?.let { meal ->

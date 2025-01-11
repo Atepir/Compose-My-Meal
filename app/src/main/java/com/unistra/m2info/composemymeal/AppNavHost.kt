@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.runtime.Composable
@@ -32,8 +33,6 @@ import androidx.compose.ui.input.pointer.pointerInput
 @Composable
 fun AppNavHost() {
     val navController = rememberNavController()
-    var selectedTabIndex by remember { mutableStateOf(0) }
-    val tabs = listOf("Suggestions", "Favorites")
     val currentBackStackEntry = navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry.value?.destination?.route
 
@@ -47,6 +46,7 @@ fun AppNavHost() {
         val pages = listOf("Suggestion", "Favorites")
         var selectedTabIndex by remember { mutableStateOf(0) }
         navController.currentDestination?.let {
+            Spacer(modifier = Modifier.fillMaxWidth().padding(8.dp))
             CustomRow(
                 items = pages,
                 selectedIndex = if (it.route == "favorites") 1 else 0,
@@ -54,17 +54,18 @@ fun AppNavHost() {
                     run {
                         if (index == 0) navController.navigate("suggestion")
                         else navController.navigate("favorites")
+                        println("Tab selected $index")
                     }
                     selectedTabIndex = index
                 },
-                modifier = Modifier.padding(bottom = 16.dp)
+                modifier = Modifier.padding(vertical = 16.dp)
             )
         }
     }
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(WindowInsets.statusBars.asPaddingValues())
+            .padding(top = 48.dp)
     ) {
         SheetStackManager(sheetStack = sheetStack) {
             NavHost(

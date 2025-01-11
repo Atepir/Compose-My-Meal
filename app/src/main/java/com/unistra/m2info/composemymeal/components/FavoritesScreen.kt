@@ -33,7 +33,7 @@ fun FavoritesScreen(navController: NavController, sheetStack: SheetStack) {
     var handled by remember { mutableStateOf(false) }
 
     Box(
-        modifier = Modifier.fillMaxSize().padding(top = 36.dp)
+        modifier = Modifier.fillMaxSize().padding(top = 56.dp)
             .pointerInput(Unit) {
                 detectHorizontalDragGestures(
                     onDragEnd = { handled = false }, // Reset the flag when the drag ends
