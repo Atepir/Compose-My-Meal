@@ -59,6 +59,7 @@ fun BrowseSheet(
     Box(
         modifier = Modifier.fillMaxSize()
             .padding(16.dp)
+            .padding(top = 40.dp)
             .imePadding()
     ) {
         Box(
@@ -68,18 +69,6 @@ fun BrowseSheet(
             LazyColumn(
                 modifier = Modifier
             ) {
-                item {
-                    Text(
-                        text = "Browse",
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 16.dp)
-                            .wrapContentWidth(Alignment.CenterHorizontally)
-                    )
-                }
-
                 if (filteredIngredients.isNotEmpty()) {
                     item {
                         SectionHeader(

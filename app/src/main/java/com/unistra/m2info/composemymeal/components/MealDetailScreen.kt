@@ -180,7 +180,7 @@ fun MealDetailScreen(mealId: String, sheetStack: SheetStack? = null, viewModel: 
                 Text(
                     text = it.strInstructions,
                     style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.padding(top = 8.dp).padding(bottom = 80.dp), // Extra space at bottom for navigation
+                    modifier = Modifier.padding(top = 8.dp).padding(bottom = 100.dp), // Extra space at bottom for navigation
                     textAlign = TextAlign.Start
                 )
             }

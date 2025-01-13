@@ -28,7 +28,9 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchInputField(searchText: String, onSearchTextChange: (String) -> Unit) {
+fun SearchInputField(searchText: String,
+                     onSearchTextChange: (String) -> Unit,
+                     label: String = "Search ingredients or countries...") {
     Card(
         elevation = CardDefaults.cardElevation(8.dp),
         shape = MaterialTheme.shapes.large,
@@ -61,7 +63,7 @@ fun SearchInputField(searchText: String, onSearchTextChange: (String) -> Unit) {
                 onValueChange = onSearchTextChange,
                 placeholder = {
                     Text(
-                        text = "Search ingredients or countries...",
+                        text = label,
                         style = MaterialTheme.typography.bodyMedium.copy(color = Color.Gray)
                     )
                 },

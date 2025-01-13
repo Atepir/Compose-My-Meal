@@ -84,14 +84,9 @@ fun AppNavHost() {
                     composable(
                         route = "suggestion",
                         enterTransition = {
-                            fadeIn(tween(200))
+                            fadeIn(tween(100))
                         },
-                        exitTransition = {
-                            slideOutOfContainer(
-                                AnimatedContentTransitionScope.SlideDirection.End,
-                                tween(100)
-                            )
-                        }
+                        exitTransition = null
                     ) { SuggestionScreen(navController, sheetStack) }
 
                     composable(
