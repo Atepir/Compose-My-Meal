@@ -1,4 +1,6 @@
-package com.unistra.m2info.composemymeal
+package com.unistra.m2info.composemymeal.utils
+
+import com.unistra.m2info.composemymeal.R
 
 val countryIconMap = mapOf(
     "French" to R.drawable.france,

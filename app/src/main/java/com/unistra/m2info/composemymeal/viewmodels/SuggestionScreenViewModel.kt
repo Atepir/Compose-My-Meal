@@ -1,13 +1,14 @@
-package com.unistra.m2info.composemymeal
+package com.unistra.m2info.composemymeal.viewmodels
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import androidx.compose.runtime.mutableStateOf
+import com.unistra.m2info.composemymeal.api.MealDetail
+import com.unistra.m2info.composemymeal.api.MealDetailsResponse
+import com.unistra.m2info.composemymeal.api.RetrofitInstance
 
 class SuggestionViewModel : ViewModel() {
     val randomMeal = mutableStateOf<MealDetail?>(null)

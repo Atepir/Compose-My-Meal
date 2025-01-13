@@ -1,4 +1,4 @@
-package com.unistra.m2info.composemymeal
+package com.unistra.m2info.composemymeal.api
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

@@ -18,7 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
-import com.unistra.m2info.composemymeal.CountriesViewModel
+import com.unistra.m2info.composemymeal.viewmodels.CountriesViewModel
 import com.unistra.m2info.composemymeal.layout.CustomRow
 import com.unistra.m2info.composemymeal.layout.SheetStack
 

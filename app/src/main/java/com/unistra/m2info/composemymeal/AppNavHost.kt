@@ -1,9 +1,11 @@
 package com.unistra.m2info.composemymeal
 
 import android.text.Layout
+import android.transition.Fade
 import androidx.compose.foundation.layout.*
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -59,11 +61,11 @@ fun AppNavHost() {
                 onTabSelected = { index ->
                     if (index == 0 && currentRoute != "suggestion") {
                         navController.navigate("suggestion") {
-                            launchSingleTop = true // Avoids re-creating the same destination
+                            launchSingleTop = true
                         }
                     } else if (index == 1 && currentRoute != "favorites") {
                         navController.navigate("favorites") {
-                            launchSingleTop = true // Avoids re-creating the same destination
+                            launchSingleTop = true
                         }
                     }
                 },
@@ -82,15 +84,12 @@ fun AppNavHost() {
                     composable(
                         route = "suggestion",
                         enterTransition = {
-                            slideIntoContainer(
-                                AnimatedContentTransitionScope.SlideDirection.End,
-                                tween(200)
-                            )
+                            fadeIn(tween(200))
                         },
                         exitTransition = {
                             slideOutOfContainer(
-                                AnimatedContentTransitionScope.SlideDirection.Start,
-                                tween(10)
+                                AnimatedContentTransitionScope.SlideDirection.End,
+                                tween(100)
                             )
                         }
                     ) { SuggestionScreen(navController, sheetStack) }
@@ -100,15 +99,10 @@ fun AppNavHost() {
                         enterTransition = {
                             slideIntoContainer(
                                 AnimatedContentTransitionScope.SlideDirection.Start,
-                                tween(200)
+                                tween(100)
                             )
                         },
-                        exitTransition = {
-                            slideOutOfContainer(
-                                AnimatedContentTransitionScope.SlideDirection.End,
-                                tween(10)
-                            )
-                        }
+                        exitTransition = null
                     ) { FavoritesScreen(navController, sheetStack) }
                 }
             }

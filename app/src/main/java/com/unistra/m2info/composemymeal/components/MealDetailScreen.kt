@@ -11,8 +11,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Share
-import androidx.compose.material.icons.outlined.Favorite
-import androidx.compose.material.icons.sharp.Favorite
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -29,11 +27,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
-import com.unistra.m2info.composemymeal.FavoritesManager
-import com.unistra.m2info.composemymeal.MealDetailViewModel
+import com.unistra.m2info.composemymeal.utils.FavoritesManager
+import com.unistra.m2info.composemymeal.viewmodels.MealDetailViewModel
 import com.unistra.m2info.composemymeal.R
-import com.unistra.m2info.composemymeal.ShareDialog
-import com.unistra.m2info.composemymeal.countryIconMap
+import com.unistra.m2info.composemymeal.utils.countryIconMap
 import com.unistra.m2info.composemymeal.layout.SheetStack
 import com.unistra.m2info.composemymeal.ui.theme.UbuntuFontFamily
 
@@ -52,7 +49,7 @@ fun MealDetailScreen(mealId: String, sheetStack: SheetStack? = null, viewModel: 
 
     if (isLoading) {
         Box(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize().background(Color.Transparent),
             contentAlignment = Alignment.Center
         ) {
             CircularProgressIndicator()
@@ -64,6 +61,7 @@ fun MealDetailScreen(mealId: String, sheetStack: SheetStack? = null, viewModel: 
                     .fillMaxSize()
                     .padding(16.dp)
                     .verticalScroll(rememberScrollState())
+                    .background(Color.Transparent)
             ) {
                 Row(
                     modifier = Modifier
@@ -131,23 +129,24 @@ fun MealDetailScreen(mealId: String, sheetStack: SheetStack? = null, viewModel: 
                         modifier = Modifier
                             .padding(8.dp)
                             .clip(RoundedCornerShape(8.dp))
-                            .background(Color.White.copy(alpha = 0.8f))
-                            .align(Alignment.TopStart)
+                            .background(Color.White.copy(alpha = 0.9f))
+                            .align(Alignment.TopStart),
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        val iconRes = countryIconMap[it.strCountry?.strArea] ?: R.drawable.france
+                        val iconRes = countryIconMap[it.strArea] ?: R.drawable.france
                         Image(
                             painter = painterResource(id = iconRes),
-                            contentDescription = it.strCountry?.strArea,
+                            contentDescription = it.strArea,
                             modifier = Modifier
                                 .size(32.dp)
                                 .padding(4.dp)
                         )
-                        it.strCountry?.let { country ->
+                        it.strArea?.let { country ->
                             Text(
-                                text = country.strArea,
+                                text = country,
                                 textAlign = TextAlign.Center,
                                 fontSize = 12.sp,
-                                modifier = Modifier.padding(start = 4.dp, top = 8.dp, bottom = 8.dp)
+                                modifier = Modifier.padding(start = 4.dp, end = 4.dp)
                             )
                         }
                     }
