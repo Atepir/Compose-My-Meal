@@ -2,7 +2,7 @@ package com.unistra.m2info.composemymeal.utils
 
 import android.content.Context
 import android.content.Intent
-import com.unistra.m2info.composemymeal.MealDetail
+import com.unistra.m2info.composemymeal.api.MealDetail
 
 fun shareViaFacebook(context: Context, meal: MealDetail) {
     val intent = Intent(Intent.ACTION_SEND).apply {

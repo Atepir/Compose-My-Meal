@@ -3,11 +3,8 @@ package com.unistra.m2info.composemymeal.components
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.paddingFrom
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -23,9 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.unistra.m2info.composemymeal.BrowseSheet
-import com.unistra.m2info.composemymeal.FavoritesManager
-import com.unistra.m2info.composemymeal.layout.BottomNavigation
+import com.unistra.m2info.composemymeal.utils.FavoritesManager
 import com.unistra.m2info.composemymeal.layout.SheetStack
 
 @Composable

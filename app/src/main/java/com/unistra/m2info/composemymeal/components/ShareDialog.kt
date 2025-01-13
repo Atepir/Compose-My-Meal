@@ -1,4 +1,4 @@
-package com.unistra.m2info.composemymeal
+package com.unistra.m2info.composemymeal.components
 
 import android.content.Context
 import androidx.compose.foundation.layout.Column
@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.unistra.m2info.composemymeal.api.MealDetail
 import com.unistra.m2info.composemymeal.utils.shareViaFacebook
 import com.unistra.m2info.composemymeal.utils.shareViaSms
 
@@ -47,7 +48,7 @@ fun ShareDialog(context: Context, meal: MealDetail, onDismiss: () -> Unit) {
                     },
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text(text = "Share via SMS")
+                    Text(text = "Share via Text")
                 }
             }
         }

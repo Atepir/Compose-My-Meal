@@ -1,8 +1,9 @@
-package com.unistra.m2info.composemymeal
+package com.unistra.m2info.composemymeal.utils
 
 import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.unistra.m2info.composemymeal.api.MealDetail
 import java.io.File
 
 object FileStorage {

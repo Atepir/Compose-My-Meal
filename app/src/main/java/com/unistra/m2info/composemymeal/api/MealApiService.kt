@@ -1,4 +1,4 @@
-package com.unistra.m2info.composemymeal
+package com.unistra.m2info.composemymeal.api
 
 import retrofit2.Call
 import retrofit2.http.GET
@@ -16,7 +16,7 @@ interface MealApiService {
     fun getMealsByIngredient(@Query("i") ingredient: String): Call<MealDetailsResponse>
 
     @GET("filter.php")
-    fun getMealsByCountry(@Query("a") ingredient: String): Call<MealDetailsResponse>
+    fun getMealsByCountry(@Query("a") country: String): Call<MealDetailsResponse>
 
     @GET("list.php?i=list")
     fun getIngredients(): Call<IngredientListResponse>

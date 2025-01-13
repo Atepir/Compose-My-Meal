@@ -1,4 +1,4 @@
-package com.unistra.m2info.composemymeal
+package com.unistra.m2info.composemymeal.api
 
 data class IngredientListResponse(
     val meals: List<Ingredient>

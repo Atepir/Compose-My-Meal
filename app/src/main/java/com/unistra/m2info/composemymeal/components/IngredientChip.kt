@@ -21,11 +21,11 @@ fun IngredientChip(ingredient: String, measure: String) {
             .fillMaxWidth()
             .padding(vertical = 1.dp)
             .background(
-                color = Color(0x10000000),
+                color = Color(0x10919191),
                 shape = RoundedCornerShape(6.dp)
             )
             .padding(4.dp),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.Top
     ) {
         Row (
             modifier = Modifier.fillMaxWidth(0.7f).height(24.dp),

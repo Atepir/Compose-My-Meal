@@ -1,7 +1,11 @@
-package com.unistra.m2info.composemymeal
+package com.unistra.m2info.composemymeal.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.compose.runtime.mutableStateOf
+import com.unistra.m2info.composemymeal.api.CountryListResponse
+import com.unistra.m2info.composemymeal.api.MealDetail
+import com.unistra.m2info.composemymeal.api.MealDetailsResponse
+import com.unistra.m2info.composemymeal.api.RetrofitInstance
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

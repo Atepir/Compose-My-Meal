@@ -1,14 +1,11 @@
 package com.unistra.m2info.composemymeal.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,7 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import com.unistra.m2info.composemymeal.IngredientsViewModel
+import com.unistra.m2info.composemymeal.viewmodels.IngredientsViewModel
 import com.unistra.m2info.composemymeal.layout.CustomRow
 import com.unistra.m2info.composemymeal.layout.SheetStack
 import androidx.compose.material3.Text

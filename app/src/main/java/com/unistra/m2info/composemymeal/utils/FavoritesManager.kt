@@ -1,7 +1,8 @@
-package com.unistra.m2info.composemymeal
+package com.unistra.m2info.composemymeal.utils
 
 import android.content.Context
 import androidx.compose.runtime.mutableStateListOf
+import com.unistra.m2info.composemymeal.api.MealDetail
 
 object FavoritesManager {
     private val _favorites = mutableStateListOf<MealDetail>() // Reactive favorites list
