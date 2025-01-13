@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.unistra.m2info.composemymeal.BrowseSheet
+import com.unistra.m2info.composemymeal.components.BrowseMainSheet
 import com.unistra.m2info.composemymeal.ui.theme.UbuntuFontFamily
 
 @Composable
@@ -33,7 +34,7 @@ fun BottomNavigation(sheetStack: SheetStack, navController: NavController) { // 
     ) {
         FloatingActionButton(
             onClick = {
-                sheetStack.push { BrowseSheet(sheetStack) }
+                sheetStack.push { BrowseMainSheet(sheetStack) }
             },
             containerColor = if (isSystemInDarkTheme()) Color.White else Color.Black,
             contentColor = if (isSystemInDarkTheme()) Color.Black else Color.White,
@@ -44,7 +45,7 @@ fun BottomNavigation(sheetStack: SheetStack, navController: NavController) { // 
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.padding(12.dp).fillMaxWidth()
             ) {
-                Text(text = "Browse", fontFamily = UbuntuFontFamily, fontSize = 16.sp, modifier = Modifier.padding(end = 4.dp))
+                Text(text = "Explore", fontFamily = UbuntuFontFamily, fontSize = 16.sp, modifier = Modifier.padding(end = 4.dp))
                 Icon(imageVector = Icons.Default.Search, contentDescription = "Search", Modifier.size(24.dp))
             }
         }

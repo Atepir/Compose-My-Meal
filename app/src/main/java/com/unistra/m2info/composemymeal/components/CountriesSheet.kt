@@ -61,11 +61,11 @@ fun CountriesSheet(sheetStack: SheetStack, defaultCountry: String = "France") {
                     onHorizontalDrag = { _, dragAmount ->
                         if (!handled) {
                             when {
-                                dragAmount < -50 && selectedTabIndex < countries.size - 1 -> {
+                                dragAmount < -30 && selectedTabIndex < countries.size - 1 -> {
                                     onTabSelected(selectedTabIndex + 1)
                                     handled = true
                                 }
-                                dragAmount > 50 && selectedTabIndex > 0 -> {
+                                dragAmount > 30 && selectedTabIndex > 0 -> {
                                     onTabSelected(selectedTabIndex - 1)
                                     handled = true
                                 }
@@ -114,7 +114,7 @@ fun CountriesSheet(sheetStack: SheetStack, defaultCountry: String = "France") {
             Box(
                 modifier = Modifier.align(Alignment.BottomCenter).background(Color.Transparent)
             ) {
-                SearchInputField(searchText, { searchText = it })
+                SearchInputField(searchText, { searchText = it }, label = "Search countries...")
             }
         }
     }

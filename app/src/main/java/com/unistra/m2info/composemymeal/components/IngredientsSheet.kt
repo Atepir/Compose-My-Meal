@@ -63,11 +63,11 @@ fun IngredientsSheet(sheetStack: SheetStack, defaultIngredient: String = "Tomato
                     onHorizontalDrag = { _, dragAmount ->
                         if (!handled) {
                             when {
-                                dragAmount < -50 && selectedTabIndex < ingredients.size - 1 -> {
+                                dragAmount < -30 && selectedTabIndex < ingredients.size - 1 -> {
                                     onTabSelected(selectedTabIndex + 1)
                                     handled = true
                                 }
-                                dragAmount > 50 && selectedTabIndex > 0 -> {
+                                dragAmount > 30 && selectedTabIndex > 0 -> {
                                     onTabSelected(selectedTabIndex - 1)
                                     handled = true
                                 }
@@ -116,7 +116,7 @@ fun IngredientsSheet(sheetStack: SheetStack, defaultIngredient: String = "Tomato
             Box(
                 modifier = Modifier.align(Alignment.BottomCenter).background(Color.Transparent)
             ) {
-                SearchInputField(searchText, { searchText = it })
+                SearchInputField(searchText, { searchText = it }, label = "Search ingredients...")
             }
         }
     }

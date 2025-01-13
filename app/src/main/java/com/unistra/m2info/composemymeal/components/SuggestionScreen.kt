@@ -49,7 +49,7 @@ fun SuggestionScreen(navController: NavController, sheetStack: SheetStack) {
                     onHorizontalDrag = { _, dragAmount ->
                         if (!handled) {
                             when {
-                                dragAmount < -50 -> {
+                                dragAmount < -30 -> {
                                     navController.navigate("favorites")
                                     handled = true
                                 }
