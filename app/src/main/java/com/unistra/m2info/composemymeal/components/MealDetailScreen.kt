@@ -23,6 +23,7 @@ import com.unistra.m2info.composemymeal.MealDetailViewModel
 import com.unistra.m2info.composemymeal.R
 import com.unistra.m2info.composemymeal.ShareDialog
 import com.unistra.m2info.composemymeal.layout.SheetStack
+import com.unistra.m2info.composemymeal.ui.theme.UbuntuFontFamily
 
 
 @Composable
@@ -62,6 +63,7 @@ fun MealDetailScreen(mealId: String, sheetStack: SheetStack? = null, viewModel: 
                         text = meal.strMeal,
                         style = MaterialTheme.typography.headlineSmall.copy(
                             fontWeight = FontWeight.Bold,
+                            fontFamily = UbuntuFontFamily
                         ),
                         textAlign = TextAlign.Left,
                         modifier = Modifier.fillMaxWidth(0.8f)

@@ -15,6 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.unistra.m2info.composemymeal.ui.theme.ComposeMyMealTheme
+import com.unistra.m2info.composemymeal.ui.theme.UbuntuFontFamily
 import kotlinx.coroutines.selects.select
 
 @Composable
@@ -41,6 +42,7 @@ fun CustomRow(
                     Text(
                         text = title,
                         fontWeight = FontWeight.Bold,
+                        fontFamily = UbuntuFontFamily,
                         fontSize = 22.sp,
                         color = if (isSystemInDarkTheme())
                                     if (index != selectedIndex)

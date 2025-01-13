@@ -11,6 +11,10 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import com.unistra.m2info.composemymeal.R
 
 private val DarkColorScheme = darkColorScheme(
     primary = Dark,
@@ -32,6 +36,11 @@ private val LightColorScheme = lightColorScheme(
     onSecondary = Color.White,
     onTertiary = Color.White,
     */
+)
+
+val UbuntuFontFamily = FontFamily(
+    Font(R.font.ubuntu_regular, FontWeight.Normal),
+    Font(R.font.ubuntu_bold, FontWeight.Bold)
 )
 
 @Composable

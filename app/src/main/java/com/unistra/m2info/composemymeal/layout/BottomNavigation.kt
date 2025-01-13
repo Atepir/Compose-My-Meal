@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.unistra.m2info.composemymeal.BrowseSheet
+import com.unistra.m2info.composemymeal.ui.theme.UbuntuFontFamily
 
 @Composable
 fun BottomNavigation(sheetStack: SheetStack, navController: NavController) { // Passer NavController
@@ -43,7 +44,7 @@ fun BottomNavigation(sheetStack: SheetStack, navController: NavController) { // 
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.padding(12.dp).fillMaxWidth()
             ) {
-                Text(text = "Browse", fontSize = 16.sp, modifier = Modifier.padding(end = 4.dp))
+                Text(text = "Browse", fontFamily = UbuntuFontFamily, fontSize = 16.sp, modifier = Modifier.padding(end = 4.dp))
                 Icon(imageVector = Icons.Default.Search, contentDescription = "Search", Modifier.size(24.dp))
             }
         }
@@ -59,7 +60,7 @@ fun BottomNavigation(sheetStack: SheetStack, navController: NavController) { // 
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.padding(12.dp).fillMaxWidth()
             ) {
-                Text(text = "Surprise Me", fontSize = 16.sp, modifier = Modifier.padding(end = 4.dp))
+                Text(text = "Surprise Me", fontFamily = UbuntuFontFamily, fontSize = 16.sp, modifier = Modifier.padding(end = 4.dp))
                 Icon(imageVector = Icons.Default.Refresh, contentDescription = "Surprise", Modifier.size(24.dp))
             }
         }
