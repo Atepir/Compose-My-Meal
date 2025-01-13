@@ -8,6 +8,7 @@ data class MealDetail(
     val idMeal: String,
     val strMeal: String,
     val strCategory: String,
+    val strCountry: Country?,
     val strInstructions: String,
     val strMealThumb: String,
     val strTags: String?,

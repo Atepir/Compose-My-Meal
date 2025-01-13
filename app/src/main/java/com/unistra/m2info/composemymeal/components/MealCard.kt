@@ -5,6 +5,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
@@ -17,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -90,13 +94,11 @@ fun MealCard(meal: MealDetail, onClick: () -> Unit) {
                     modifier = Modifier.size(24.dp)
                 ) {
                     Icon(
-                        painter = painterResource(
-                            id = if (meal?.let { FavoritesManager.isFavorite(it) } == true)
-                                R.drawable.heart_red
-                            else
-                                R.drawable.heart,
-                        ),
+                        imageVector = (if (meal?.let { FavoritesManager.isFavorite(it) } == true)
+                            Icons.Default.Favorite
+                        else Icons.Default.FavoriteBorder) as ImageVector,
                         contentDescription = "Like",
+                        tint = if (isSystemInDarkTheme()) Color.White else Color.Black
                     )
                 }
             }

@@ -1,27 +1,39 @@
 package com.unistra.m2info.composemymeal.components
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material.icons.sharp.Favorite
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.unistra.m2info.composemymeal.FavoritesManager
 import com.unistra.m2info.composemymeal.MealDetailViewModel
 import com.unistra.m2info.composemymeal.R
 import com.unistra.m2info.composemymeal.ShareDialog
+import com.unistra.m2info.composemymeal.countryIconMap
 import com.unistra.m2info.composemymeal.layout.SheetStack
 import com.unistra.m2info.composemymeal.ui.theme.UbuntuFontFamily
 
@@ -76,13 +88,11 @@ fun MealDetailScreen(mealId: String, sheetStack: SheetStack? = null, viewModel: 
                             modifier = Modifier.size(24.dp)
                         ) {
                             Icon(
-                                painter = painterResource(
-                                    id = if (meal?.let { FavoritesManager.isFavorite(it) } == true)
-                                        R.drawable.heart_red
-                                    else
-                                        R.drawable.heart
-                                ),
+                                imageVector = (if (meal?.let { FavoritesManager.isFavorite(it) } == true)
+                                                    Icons.Default.Favorite
+                                                else Icons.Default.FavoriteBorder) as ImageVector,
                                 contentDescription = "Like",
+                                tint = if (isSystemInDarkTheme()) Color.White else Color.Black
                             )
                         }
 
@@ -93,22 +103,56 @@ fun MealDetailScreen(mealId: String, sheetStack: SheetStack? = null, viewModel: 
                             modifier = Modifier.size(24.dp)
                         ) {
                             Icon(
-                                painter = painterResource(id = R.drawable.share),
+                                imageVector = Icons.Default.Share,
                                 contentDescription = "Share",
                             )
                         }
                     }
                 }
 
-                AsyncImage(
-                    model = it.strMealThumb,
-                    contentDescription = "Meal Image",
-                    contentScale = ContentScale.FillWidth,
+                Box(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(200.dp)
-                        .clip(RoundedCornerShape(8.dp))
-                )
+                ) {
+                    // Recipe image
+                    AsyncImage(
+                        model = it.strMealThumb,
+                        contentDescription = "Meal Image",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(200.dp)
+                            .clip(RoundedCornerShape(8.dp))
+                    )
+
+                    // Country icon
+                    Row(
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .clip(RoundedCornerShape(8.dp))
+                            .background(Color.White.copy(alpha = 0.8f))
+                            .align(Alignment.TopStart)
+                    ) {
+                        val iconRes = countryIconMap[it.strCountry?.strArea] ?: R.drawable.france
+                        Image(
+                            painter = painterResource(id = iconRes),
+                            contentDescription = it.strCountry?.strArea,
+                            modifier = Modifier
+                                .size(32.dp)
+                                .padding(4.dp)
+                        )
+                        it.strCountry?.let { country ->
+                            Text(
+                                text = country.strArea,
+                                textAlign = TextAlign.Center,
+                                fontSize = 12.sp,
+                                modifier = Modifier.padding(start = 4.dp, top = 8.dp, bottom = 8.dp)
+                            )
+                        }
+                    }
+                }
+
 
                 Spacer(modifier = Modifier.padding(bottom = 12.dp))
 
