@@ -33,16 +33,6 @@ data class MealDetail(
     val strIngredient18: String?,
     val strIngredient19: String?,
     val strIngredient20: String?,
-    val strIngredient21: String?,
-    val strIngredient22: String?,
-    val strIngredient23: String?,
-    val strIngredient24: String?,
-    val strIngredient25: String?,
-    val strIngredient26: String?,
-    val strIngredient27: String?,
-    val strIngredient28: String?,
-    val strIngredient29: String?,
-    val strIngredient30: String?,
     val strMeasure1: String?,
     val strMeasure2: String?,
     val strMeasure3: String?,
@@ -62,35 +52,21 @@ data class MealDetail(
     val strMeasure17: String?,
     val strMeasure18: String?,
     val strMeasure19: String?,
-    val strMeasure20: String?,
-    val strMeasure21: String?,
-    val strMeasure22: String?,
-    val strMeasure23: String?,
-    val strMeasure24: String?,
-    val strMeasure25: String?,
-    val strMeasure26: String?,
-    val strMeasure27: String?,
-    val strMeasure28: String?,
-    val strMeasure29: String?,
-    val strMeasure30: String?
+    val strMeasure20: String?
 ) {
     fun getIngredientsWithMeasures(): List<Pair<String?, String?>> {
         val ingredients = listOf(
             strIngredient1, strIngredient2, strIngredient3, strIngredient4, strIngredient5,
             strIngredient6, strIngredient7, strIngredient8, strIngredient9, strIngredient10,
             strIngredient11, strIngredient12, strIngredient13, strIngredient14, strIngredient15,
-            strIngredient16, strIngredient17, strIngredient18, strIngredient19, strIngredient20,
-            strIngredient21, strIngredient22, strIngredient23, strIngredient24, strIngredient25,
-            strIngredient26, strIngredient27, strIngredient28, strIngredient29, strIngredient30
+            strIngredient16, strIngredient17, strIngredient18, strIngredient19, strIngredient20
         )
 
         val measures = listOf(
             strMeasure1, strMeasure2, strMeasure3, strMeasure4, strMeasure5,
             strMeasure6, strMeasure7, strMeasure8, strMeasure9, strMeasure10,
             strMeasure11, strMeasure12, strMeasure13, strMeasure14, strMeasure15,
-            strMeasure16, strMeasure17, strMeasure18, strMeasure19, strMeasure20,
-            strMeasure21, strMeasure22, strMeasure23, strMeasure24, strMeasure25,
-            strMeasure26, strMeasure27, strMeasure28, strMeasure29, strMeasure30
+            strMeasure16, strMeasure17, strMeasure18, strMeasure19, strMeasure20
         )
 
         // Pair ingredients with their measures, filtering out null or blank entries
