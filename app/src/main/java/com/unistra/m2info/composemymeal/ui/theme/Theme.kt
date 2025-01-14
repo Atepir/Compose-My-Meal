@@ -19,7 +19,9 @@ import com.unistra.m2info.composemymeal.R
 private val DarkColorScheme = darkColorScheme(
     primary = Dark,
     secondary = DarkLight,
-    tertiary = Dark
+    tertiary = Dark,
+    background = Color(0xFF0E103D),
+    onBackground = Color(0xffffffff)
 )
 
 private val LightColorScheme = lightColorScheme(

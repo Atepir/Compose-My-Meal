@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -28,8 +29,8 @@ fun CountriesSheet(sheetStack: SheetStack, defaultCountry: String = "France") {
     val viewModel = remember { CountriesViewModel() }
     val meals = viewModel.meals.value
     val isLoading = viewModel.isLoading.value
-    val countries = viewModel.countries.value
-    var selectedTabIndex by remember { mutableStateOf(0) }
+    val countries = viewModel.countries.value.filter { it != "Unknown" }
+    var selectedTabIndex by remember { mutableIntStateOf(0) }
     var searchText by remember { mutableStateOf("") }
     var handled by remember { mutableStateOf(false) }
 
@@ -112,7 +113,7 @@ fun CountriesSheet(sheetStack: SheetStack, defaultCountry: String = "France") {
             }
 
             Box(
-                modifier = Modifier.align(Alignment.BottomCenter).background(Color.Transparent)
+                modifier = Modifier.align(Alignment.BottomCenter).background(Color.Transparent).padding(bottom = 32.dp)
             ) {
                 SearchInputField(searchText, { searchText = it }, label = "Search countries...")
             }

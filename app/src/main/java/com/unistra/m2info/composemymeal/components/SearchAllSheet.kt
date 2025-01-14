@@ -68,7 +68,7 @@ fun SearchAllSheet(
             }
 
             Box(
-                modifier = Modifier.align(Alignment.BottomCenter).background(Color.Transparent)
+                modifier = Modifier.align(Alignment.BottomCenter).background(Color.Transparent).padding(bottom = 32.dp)
             ) {
                 SearchInputField(searchText, { searchText = it }, label = "Find your favorite recipe...")
             }

@@ -25,8 +25,10 @@ class SheetStack {
     }
 
     // Remove the top sheet from the stack
-    fun pop() {
-        if (stack.isNotEmpty()) stack.removeAt(stack.lastIndex) // Supprime la dernière feuille
+    fun pop(): @Composable() (() -> Unit)? {
+        return if (stack.isNotEmpty())
+            stack.removeAt(stack.lastIndex) // Supprime la dernière feuille
+        else null
     }
 
     // Get the top-most sheet content
