@@ -40,6 +40,7 @@ private val LightColorScheme = lightColorScheme(
 
 val UbuntuFontFamily = FontFamily(
     Font(R.font.ubuntu_regular, FontWeight.Normal),
+    Font(R.font.ubuntu_medium, FontWeight.Medium),
     Font(R.font.ubuntu_bold, FontWeight.Bold)
 )
 
