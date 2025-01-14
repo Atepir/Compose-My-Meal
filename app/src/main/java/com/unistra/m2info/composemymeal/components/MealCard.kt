@@ -36,6 +36,7 @@ import coil.compose.AsyncImage
 import com.unistra.m2info.composemymeal.utils.FavoritesManager
 import com.unistra.m2info.composemymeal.api.MealDetail
 import com.unistra.m2info.composemymeal.R
+import com.unistra.m2info.composemymeal.ui.theme.UbuntuFontFamily
 import com.unistra.m2info.composemymeal.utils.countryIconMap
 import com.unistra.m2info.composemymeal.viewmodels.MealDetailViewModel
 
@@ -93,12 +94,14 @@ fun MealCard(meal: MealDetail, onClick: () -> Unit, viewModel: MealDetailViewMod
                 ) {
                     Text(
                         text = meal.strMeal.replaceFirstChar { it.uppercase() },
+                        fontFamily = UbuntuFontFamily,
                         style = MaterialTheme.typography.titleSmall,
                         color = if (isSystemInDarkTheme()) Color.White else Color.Black
                     )
                     meal.strCategory?.let {
                         Text(
                             text = it.replaceFirstChar { it.uppercase() },
+                            fontFamily = UbuntuFontFamily,
                             style = MaterialTheme.typography.bodySmall,
                             color = if (isSystemInDarkTheme()) Color.White else Color.Black
                         )

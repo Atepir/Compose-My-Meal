@@ -38,7 +38,7 @@ fun BottomNavigation(sheetStack: SheetStack, navController: NavController) { // 
             },
             containerColor = if (isSystemInDarkTheme()) Color.White else Color.Black,
             contentColor = if (isSystemInDarkTheme()) Color.Black else Color.White,
-            modifier = Modifier.fillMaxWidth(0.45f)
+            modifier = Modifier.fillMaxWidth(0.47f)
         ) {
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
