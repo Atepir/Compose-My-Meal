@@ -57,7 +57,6 @@ fun IngredientsSheet(sheetStack: SheetStack, defaultIngredient: String = "Tomato
             .fillMaxSize()
             .padding(16.dp)
             .imePadding()
-            .padding(bottom = 32.dp)
             .pointerInput(Unit) {
                 detectHorizontalDragGestures (
                     onDragEnd = { handled = false }, // Reset the flag when the drag ends
@@ -115,7 +114,7 @@ fun IngredientsSheet(sheetStack: SheetStack, defaultIngredient: String = "Tomato
             }
 
             Box(
-                modifier = Modifier.align(Alignment.BottomCenter).background(Color.Transparent)
+                modifier = Modifier.align(Alignment.BottomCenter).background(Color.Transparent).padding(bottom = 32.dp)
             ) {
                 SearchInputField(searchText, { searchText = it }, label = "Search ingredients...")
             }

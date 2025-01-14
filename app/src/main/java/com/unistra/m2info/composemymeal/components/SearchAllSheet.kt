@@ -41,7 +41,6 @@ fun SearchAllSheet(
         modifier = Modifier.fillMaxSize()
             .padding(top = 24.dp)
             .padding(16.dp)
-            .padding(bottom = 32.dp)
     ) {
         if (isLoading) {
             Box(
@@ -69,7 +68,7 @@ fun SearchAllSheet(
             }
 
             Box(
-                modifier = Modifier.align(Alignment.BottomCenter).background(Color.Transparent)
+                modifier = Modifier.align(Alignment.BottomCenter).background(Color.Transparent).padding(bottom = 32.dp)
             ) {
                 SearchInputField(searchText, { searchText = it }, label = "Find your favorite recipe...")
             }
