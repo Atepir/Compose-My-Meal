@@ -1,6 +1,5 @@
 package com.unistra.m2info.composemymeal.viewmodels
 
-import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import retrofit2.Call
 import retrofit2.Callback
@@ -14,7 +13,7 @@ class SuggestionViewModel : ViewModel() {
     val randomMeal = mutableStateOf<MealDetail?>(null)
     val isLoading = mutableStateOf(false)
 
-    private var cachedMeal: MealDetail? = null
+    var cachedMeal: MealDetail? = null
 
     fun fetchRandomMeal(forceRefresh: Boolean = false) {
         if (!forceRefresh && cachedMeal != null) {
