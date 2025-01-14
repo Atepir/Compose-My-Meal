@@ -13,9 +13,15 @@ import com.unistra.m2info.composemymeal.api.RetrofitInstance
 class SuggestionViewModel : ViewModel() {
     val randomMeal = mutableStateOf<MealDetail?>(null)
     val isLoading = mutableStateOf(false)
-    private val _favorites = mutableStateListOf<MealDetail>() // Liked meals list
 
-    fun fetchRandomMeal() {
+    private var cachedMeal: MealDetail? = null
+
+    fun fetchRandomMeal(forceRefresh: Boolean = false) {
+        if (!forceRefresh && cachedMeal != null) {
+            randomMeal.value = cachedMeal
+            return
+        }
+
         isLoading.value = true
         RetrofitInstance.api.getRandomMeal().enqueue(object : Callback<MealDetailsResponse> {
             override fun onResponse(
@@ -24,13 +30,14 @@ class SuggestionViewModel : ViewModel() {
             ) {
                 isLoading.value = false
                 if (response.isSuccessful) {
-                    randomMeal.value = response.body()?.meals?.firstOrNull()
+                    val meal = response.body()?.meals?.firstOrNull()
+                    randomMeal.value = meal
+                    cachedMeal = meal
                 }
             }
 
             override fun onFailure(call: Call<MealDetailsResponse>, t: Throwable) {
                 isLoading.value = false
-                // Handle error
             }
         })
     }

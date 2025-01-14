@@ -17,15 +17,27 @@ class IngredientsViewModel : ViewModel() {
     val isLoading = mutableStateOf(false)
     val ingredients = mutableStateOf<List<String>>(emptyList())
 
-    fun fetchMealsByIngredient(ingredient: String) {
+    // Caches
+    private val ingredientsCache = mutableListOf<String>()
+    private val mealsCache = mutableMapOf<String, List<MealDetail>>()
+
+    fun fetchMealsByIngredient(ingredient: String, forceRefresh: Boolean = false) {
+        if (!forceRefresh && mealsCache.containsKey(ingredient)) {
+            meals.value = mealsCache[ingredient]!!
+            filteredMeals.value = meals.value
+            return
+        }
+
         isLoading.value = true
 
         RetrofitInstance.api.getMealsByIngredient(ingredient).enqueue(object : Callback<MealDetailsResponse> {
             override fun onResponse(call: Call<MealDetailsResponse>, response: Response<MealDetailsResponse>) {
                 isLoading.value = false
                 if (response.isSuccessful) {
-                    meals.value = response.body()?.meals ?: emptyList()
-                    filteredMeals.value = meals.value
+                    val fetchedMeals = response.body()?.meals ?: emptyList()
+                    meals.value = fetchedMeals
+                    filteredMeals.value = fetchedMeals
+                    mealsCache[ingredient] = fetchedMeals
                 }
             }
 
@@ -43,12 +55,19 @@ class IngredientsViewModel : ViewModel() {
         }
     }
 
-    fun fetchIngredients() {
+    fun fetchIngredients(forceRefresh: Boolean = false) {
+        if (!forceRefresh && ingredientsCache.isNotEmpty()) {
+            ingredients.value = ingredientsCache
+            return
+        }
+
         RetrofitInstance.api.getIngredients().enqueue(object : Callback<IngredientListResponse> {
             override fun onResponse(call: Call<IngredientListResponse>, response: Response<IngredientListResponse>) {
                 if (response.isSuccessful) {
                     val ingredientsList = response.body()?.meals?.map { it.strIngredient }
                     ingredients.value = ingredientsList ?: emptyList()
+                    ingredientsCache.clear()
+                    ingredientsCache.addAll(ingredients.value)
                 }
             }
 
@@ -56,5 +75,3 @@ class IngredientsViewModel : ViewModel() {
         })
     }
 }
-
-

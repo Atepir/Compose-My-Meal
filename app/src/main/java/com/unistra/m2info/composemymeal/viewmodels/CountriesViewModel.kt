@@ -11,11 +11,21 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class CountriesViewModel : ViewModel() {
+
     val countries = mutableStateOf<List<String>>(emptyList())
     val meals = mutableStateOf<List<MealDetail>>(emptyList())
     val isLoading = mutableStateOf(false)
 
-    fun fetchCountries() {
+    // Caches
+    private val countriesCache = mutableListOf<String>()
+    private val mealsByCountryCache = mutableMapOf<String, List<MealDetail>>()
+
+    fun fetchCountries(forceRefresh: Boolean = false) {
+        if (!forceRefresh && countriesCache.isNotEmpty()) {
+            countries.value = countriesCache
+            return
+        }
+
         RetrofitInstance.api.getCountries().enqueue(object : Callback<CountryListResponse> {
             override fun onResponse(
                 call: Call<CountryListResponse>,
@@ -24,7 +34,8 @@ class CountriesViewModel : ViewModel() {
                 if (response.isSuccessful) {
                     val countriesList = response.body()?.meals?.map { it.strArea }
                     countries.value = countriesList ?: emptyList()
-                    println("Countries loaded: $countriesList")
+                    countriesCache.clear()
+                    countriesCache.addAll(countries.value)
                 } else {
                     println("API response unsuccessful: ${response.errorBody()?.string()}")
                 }
@@ -36,12 +47,19 @@ class CountriesViewModel : ViewModel() {
         })
     }
 
-    fun fetchMealsByCountry(country: String) {
+    fun fetchMealsByCountry(country: String, forceRefresh: Boolean = false) {
+        if (!forceRefresh && mealsByCountryCache.containsKey(country)) {
+            meals.value = mealsByCountryCache[country]!!
+            return
+        }
+
         isLoading.value = true
         RetrofitInstance.api.getMealsByCountry(country).enqueue(object : Callback<MealDetailsResponse> {
             override fun onResponse(call: Call<MealDetailsResponse>, response: Response<MealDetailsResponse>) {
                 isLoading.value = false
-                meals.value = response.body()?.meals ?: emptyList()
+                val fetchedMeals = response.body()?.meals ?: emptyList()
+                meals.value = fetchedMeals
+                mealsByCountryCache[country] = fetchedMeals
             }
 
             override fun onFailure(call: Call<MealDetailsResponse>, t: Throwable) {
@@ -51,3 +69,4 @@ class CountriesViewModel : ViewModel() {
         })
     }
 }
+
