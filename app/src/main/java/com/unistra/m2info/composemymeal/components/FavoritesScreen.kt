@@ -50,6 +50,7 @@ fun FavoritesScreen(navController: NavController, sheetStack: SheetStack) {
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
+
                 Text(text = "No favorite meals yet!", style = MaterialTheme.typography.bodyLarge)
             }
         } else {
