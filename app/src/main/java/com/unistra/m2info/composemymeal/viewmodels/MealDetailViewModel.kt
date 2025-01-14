@@ -14,9 +14,15 @@ class MealDetailViewModel : ViewModel() {
     val mealDetail = mutableStateOf<MealDetail?>(null)
     val isLoading = mutableStateOf(false)
 
-    fun fetchMealDetails(mealId: String) {
-        isLoading.value = true
+    private val mealCache = mutableMapOf<String, MealDetail>()
 
+    fun fetchMealDetails(mealId: String, forceRefresh: Boolean = false) {
+        if (!forceRefresh && mealCache.containsKey(mealId)) {
+            mealDetail.value = mealCache[mealId]
+            return
+        }
+
+        isLoading.value = true
         RetrofitInstance.api.getMealDetails(mealId).enqueue(object : Callback<MealDetailsResponse> {
             override fun onResponse(
                 call: Call<MealDetailsResponse>,
@@ -24,13 +30,16 @@ class MealDetailViewModel : ViewModel() {
             ) {
                 isLoading.value = false
                 if (response.isSuccessful) {
-                    mealDetail.value = response.body()?.meals?.firstOrNull()
+                    val meal = response.body()?.meals?.firstOrNull()
+                    mealDetail.value = meal
+                    if (meal != null) {
+                        mealCache[mealId] = meal
+                    }
                 }
             }
 
             override fun onFailure(call: Call<MealDetailsResponse>, t: Throwable) {
                 isLoading.value = false
-                // Handle failure
             }
         })
     }
