@@ -14,7 +14,7 @@ class SearchMealViewModel : ViewModel() {
     val meals = mutableStateOf<List<MealDetail>>(emptyList())
     val isLoading = mutableStateOf(false)
 
-    private var cachedMeals: List<MealDetail>? = null
+    var cachedMeals: List<MealDetail>? = null
 
     fun fetchAllMeals(forceRefresh: Boolean = false) {
         if (!forceRefresh && cachedMeals != null) {
