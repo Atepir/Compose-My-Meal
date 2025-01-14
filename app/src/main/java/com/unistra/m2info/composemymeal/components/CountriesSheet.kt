@@ -28,7 +28,7 @@ fun CountriesSheet(sheetStack: SheetStack, defaultCountry: String = "France") {
     val viewModel = remember { CountriesViewModel() }
     val meals = viewModel.meals.value
     val isLoading = viewModel.isLoading.value
-    val countries = viewModel.countries.value
+    val countries = viewModel.countries.value.filter { it != "Unknown" }
     var selectedTabIndex by remember { mutableStateOf(0) }
     var searchText by remember { mutableStateOf("") }
     var handled by remember { mutableStateOf(false) }
@@ -55,6 +55,7 @@ fun CountriesSheet(sheetStack: SheetStack, defaultCountry: String = "France") {
             .fillMaxSize()
             .padding(16.dp)
             .imePadding()
+            .padding(bottom = 32.dp)
             .pointerInput(Unit) {
                 detectHorizontalDragGestures (
                     onDragEnd = { handled = false }, // Reset the flag when the drag ends

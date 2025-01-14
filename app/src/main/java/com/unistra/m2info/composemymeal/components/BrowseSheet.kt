@@ -42,7 +42,7 @@ fun BrowseSheet(
     val popularIngredients = listOf("Tomato", "Plain Chocolate", "Broccoli", "Beef", "Orange", "Banana")
     val popularCountries = listOf("French", "Italian", "Spanish", "Japanese", "Indian", "Mexican")
     val allIngredients = ingredientViewModel.ingredients.value
-    val allCountries = countryViewModel.countries.value
+    val allCountries = countryViewModel.countries.value.filter { it != "Unknown"}
     var searchText by remember { mutableStateOf("") }
 
     LaunchedEffect(Unit) {
@@ -60,6 +60,7 @@ fun BrowseSheet(
         modifier = Modifier.fillMaxSize()
             .padding(16.dp)
             .padding(top = 40.dp)
+            .padding(bottom = 32.dp)
             .imePadding()
     ) {
         Box(
@@ -79,8 +80,7 @@ fun BrowseSheet(
                     items(filteredIngredients.chunked(3)) { row ->
                         Row(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 8.dp),
+                                .fillMaxWidth(),
                             horizontalArrangement = Arrangement.spacedBy(16.dp)
                         ) {
                             row.forEach { ingredient ->
@@ -113,8 +113,7 @@ fun BrowseSheet(
                     items(filteredCountries.chunked(3)) { row ->
                         Row(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 8.dp),
+                                .fillMaxWidth(),
                             horizontalArrangement = Arrangement.spacedBy(16.dp)
                         ) {
                             row.forEach { country ->

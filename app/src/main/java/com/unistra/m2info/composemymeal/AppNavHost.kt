@@ -53,7 +53,7 @@ fun AppNavHost() {
         Column(
             modifier = Modifier
                 .align(Alignment.TopStart)
-                .padding(top = 16.dp)
+                .padding(top = 20.dp)
         ) {
             CustomRow(
                 items = pages,
@@ -108,7 +108,7 @@ fun AppNavHost() {
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .padding(16.dp)
-                    .padding(bottom = 24.dp)
+                    .padding(bottom = 32.dp)
             ) {
                 BottomNavigation(sheetStack = sheetStack, navController = navController)
             }

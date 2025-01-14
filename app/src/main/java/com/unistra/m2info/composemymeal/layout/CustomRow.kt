@@ -46,7 +46,7 @@ fun CustomRow(
                         fontSize = 22.sp,
                         color = if (isSystemInDarkTheme())
                                     if (index != selectedIndex)
-                                        Color.LightGray else Color.White
+                                        Color.Gray else Color.White
                                 else
                                     if (index != selectedIndex)
                                         Color.LightGray else Color.Black

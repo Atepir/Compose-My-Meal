@@ -124,31 +124,33 @@ fun MealDetailScreen(mealId: String, sheetStack: SheetStack? = null, viewModel: 
                             .clip(RoundedCornerShape(8.dp))
                     )
 
-                    // Country icon
-                    Row(
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .clip(RoundedCornerShape(8.dp))
-                            .background(Color.White.copy(alpha = 0.9f))
-                            .align(Alignment.TopStart),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        val iconRes = countryIconMap[it.strArea] ?: R.drawable.france
-                        Image(
-                            painter = painterResource(id = iconRes),
-                            contentDescription = it.strArea,
+                    if (it.strArea != "Unknown") {
+                        // Country icon
+                        Row(
                             modifier = Modifier
-                                .size(32.dp)
-                                .padding(4.dp)
-                        )
-                        it.strArea?.let { country ->
-                            Text(
-                                text = country,
-                                textAlign = TextAlign.Center,
-                                fontSize = 12.sp,
-                                modifier = Modifier.padding(start = 4.dp, end = 4.dp),
-                                color = Color.Black
+                                .padding(8.dp)
+                                .clip(RoundedCornerShape(8.dp))
+                                .background(Color.White.copy(alpha = 0.9f))
+                                .align(Alignment.TopStart),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            val iconRes = countryIconMap[it.strArea] ?: R.drawable.france
+                            Image(
+                                painter = painterResource(id = iconRes),
+                                contentDescription = it.strArea,
+                                modifier = Modifier
+                                    .size(32.dp)
+                                    .padding(4.dp)
                             )
+                            it.strArea?.let { country ->
+                                Text(
+                                    text = country,
+                                    textAlign = TextAlign.Center,
+                                    fontSize = 12.sp,
+                                    modifier = Modifier.padding(start = 4.dp, end = 4.dp),
+                                    color = Color.Black
+                                )
+                            }
                         }
                     }
                 }

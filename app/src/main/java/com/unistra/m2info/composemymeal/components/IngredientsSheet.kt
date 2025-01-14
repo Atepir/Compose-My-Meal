@@ -57,6 +57,7 @@ fun IngredientsSheet(sheetStack: SheetStack, defaultIngredient: String = "Tomato
             .fillMaxSize()
             .padding(16.dp)
             .imePadding()
+            .padding(bottom = 32.dp)
             .pointerInput(Unit) {
                 detectHorizontalDragGestures (
                     onDragEnd = { handled = false }, // Reset the flag when the drag ends

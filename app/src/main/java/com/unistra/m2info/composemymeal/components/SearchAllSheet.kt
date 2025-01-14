@@ -41,6 +41,7 @@ fun SearchAllSheet(
         modifier = Modifier.fillMaxSize()
             .padding(top = 24.dp)
             .padding(16.dp)
+            .padding(bottom = 32.dp)
     ) {
         if (isLoading) {
             Box(

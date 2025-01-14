@@ -54,19 +54,21 @@ class CountriesViewModel : ViewModel() {
         }
 
         isLoading.value = true
-        RetrofitInstance.api.getMealsByCountry(country).enqueue(object : Callback<MealDetailsResponse> {
-            override fun onResponse(call: Call<MealDetailsResponse>, response: Response<MealDetailsResponse>) {
-                isLoading.value = false
-                val fetchedMeals = response.body()?.meals ?: emptyList()
-                meals.value = fetchedMeals
-                mealsByCountryCache[country] = fetchedMeals
-            }
+        if (country != "Unknown") {
+            RetrofitInstance.api.getMealsByCountry(country).enqueue(object : Callback<MealDetailsResponse> {
+                override fun onResponse(call: Call<MealDetailsResponse>, response: Response<MealDetailsResponse>) {
+                    isLoading.value = false
+                    val fetchedMeals = response.body()?.meals ?: emptyList()
+                    meals.value = fetchedMeals
+                    mealsByCountryCache[country] = fetchedMeals
+                }
 
-            override fun onFailure(call: Call<MealDetailsResponse>, t: Throwable) {
-                isLoading.value = false
-                println("Failed to fetch meals: ${t.localizedMessage}")
-            }
-        })
+                override fun onFailure(call: Call<MealDetailsResponse>, t: Throwable) {
+                    isLoading.value = false
+                    println("Failed to fetch meals: ${t.localizedMessage}")
+                }
+            })
+        }
     }
 }
 
