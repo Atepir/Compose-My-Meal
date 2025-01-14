@@ -15,7 +15,6 @@ import org.junit.Before
 import org.junit.Test
 import retrofit2.Call
 import retrofit2.Callback
-import retrofit2.Response
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SearchMealViewModelTest {
