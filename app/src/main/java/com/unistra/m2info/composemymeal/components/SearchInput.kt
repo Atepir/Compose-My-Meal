@@ -36,7 +36,7 @@ fun SearchInputField(searchText: String,
         shape = MaterialTheme.shapes.large,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(12.dp),
+            .padding(vertical = 12.dp, horizontal = 6.dp),
         colors = CardColors(
             containerColor = Color.White,
             contentColor = Color.Black,
