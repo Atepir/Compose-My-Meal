@@ -10,12 +10,16 @@ object FileStorage {
     private const val FILE_NAME = "favorites.json"
 
     fun saveFavorites(context: Context, favorites: List<MealDetail>) {
-        val gson = Gson()
-        val jsonString = gson.toJson(favorites)
+        val completeFavorites = favorites.filter { it.isComplete() }
+        val jsonString = Gson().toJson(completeFavorites)
         val file = File(context.filesDir, FILE_NAME)
         file.writeText(jsonString)
     }
 
+    fun MealDetail.isComplete(): Boolean {
+        return !idMeal.isNullOrEmpty() && !strMeal.isNullOrEmpty() && !strMealThumb.isNullOrEmpty() && !strInstructions.isNullOrEmpty()
+    }
+    
     fun loadFavorites(context: Context): List<MealDetail> {
         val file = File(context.filesDir, FILE_NAME)
         if (!file.exists()) return emptyList()
