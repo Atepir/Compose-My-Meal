@@ -132,6 +132,7 @@ fun MealCard(meal: MealDetail, onClick: () -> Unit, viewModel: MealDetailViewMod
                     Icon(
                         imageVector = Icons.Default.Share,
                         contentDescription = "Share",
+                        tint = if (isSystemInDarkTheme()) Color.White else Color.Black
                     )
                 }
             }

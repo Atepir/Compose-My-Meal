@@ -146,7 +146,8 @@ fun MealDetailScreen(mealId: String, sheetStack: SheetStack? = null, viewModel: 
                                 text = country,
                                 textAlign = TextAlign.Center,
                                 fontSize = 12.sp,
-                                modifier = Modifier.padding(start = 4.dp, end = 4.dp)
+                                modifier = Modifier.padding(start = 4.dp, end = 4.dp),
+                                color = Color.Black
                             )
                         }
                     }
