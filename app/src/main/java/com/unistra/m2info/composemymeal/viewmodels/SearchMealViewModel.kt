@@ -14,7 +14,15 @@ class SearchMealViewModel : ViewModel() {
     val meals = mutableStateOf<List<MealDetail>>(emptyList())
     val isLoading = mutableStateOf(false)
 
-    fun fetchAllMeals() {
+    private var cachedMeals: List<MealDetail>? = null
+
+    fun fetchAllMeals(forceRefresh: Boolean = false) {
+        if (!forceRefresh && cachedMeals != null) {
+            meals.value = cachedMeals!!
+            filteredMeals.value = cachedMeals!!
+            return
+        }
+
         isLoading.value = true
         val allMeals = mutableListOf<MealDetail>()
         val letters = 'A'..'Z'
@@ -39,8 +47,10 @@ class SearchMealViewModel : ViewModel() {
                     remainingCalls -= 1
                     if (remainingCalls == 0) {
                         isLoading.value = false
-                        meals.value = allMeals.sortedBy { it.strMeal }
-                        filteredMeals.value = meals.value
+                        val sortedMeals = allMeals.sortedBy { it.strMeal }
+                        cachedMeals = sortedMeals
+                        meals.value = sortedMeals
+                        filteredMeals.value = sortedMeals
                     }
                 }
             })
