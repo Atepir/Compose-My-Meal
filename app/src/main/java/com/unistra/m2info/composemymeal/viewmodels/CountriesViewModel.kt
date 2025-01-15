@@ -14,7 +14,7 @@ class CountriesViewModel : ViewModel() {
 
     val countries = mutableStateOf<List<String>>(emptyList())
     val meals = mutableStateOf<List<MealDetail>>(emptyList())
-    val isLoading = mutableStateOf(false)
+    val isLoading = mutableStateOf(true)
 
     // Caches
     private val countriesCache = mutableListOf<String>()
@@ -48,24 +48,26 @@ class CountriesViewModel : ViewModel() {
     }
 
     fun fetchMealsByCountry(country: String, forceRefresh: Boolean = false) {
+        isLoading.value = true
+
         if (!forceRefresh && mealsByCountryCache.containsKey(country)) {
             meals.value = mealsByCountryCache[country]!!
+            isLoading.value = false
             return
         }
 
-        isLoading.value = true
         if (country != "Unknown") {
             RetrofitInstance.api.getMealsByCountry(country).enqueue(object : Callback<MealDetailsResponse> {
                 override fun onResponse(call: Call<MealDetailsResponse>, response: Response<MealDetailsResponse>) {
-                    isLoading.value = false
                     val fetchedMeals = response.body()?.meals ?: emptyList()
                     meals.value = fetchedMeals
                     mealsByCountryCache[country] = fetchedMeals
+                    isLoading.value = false
                 }
 
                 override fun onFailure(call: Call<MealDetailsResponse>, t: Throwable) {
-                    isLoading.value = false
                     println("Failed to fetch meals: ${t.localizedMessage}")
+                    isLoading.value = false
                 }
             })
         }

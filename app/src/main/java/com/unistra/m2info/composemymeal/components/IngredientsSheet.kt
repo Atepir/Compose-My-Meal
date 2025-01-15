@@ -113,7 +113,7 @@ fun IngredientsSheet(sheetStack: SheetStack, defaultIngredient: String = "Tomato
                 }
             }
 
-            if (meals.filter { it.strMeal.contains(searchText, ignoreCase = true) }.isEmpty()) {
+            if ((meals.filter { it.strMeal.contains(searchText, ignoreCase = true) }).isEmpty()) {
                 NoResults()
             }
 

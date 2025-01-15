@@ -112,7 +112,7 @@ fun CountriesSheet(sheetStack: SheetStack, defaultCountry: String = "France") {
                 }
             }
 
-            if (meals.filter { it.strMeal.contains(searchText, ignoreCase = true) }.isEmpty()) {
+            if ((meals.filter { it.strMeal.contains(searchText, ignoreCase = true) }).isEmpty()) {
                 NoResults()
             }
 
