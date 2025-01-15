@@ -50,6 +50,10 @@ fun SearchAllSheet(
                 CircularProgressIndicator()
             }
         } else {
+            if (meals.filter { it.strMeal.contains(searchText, ignoreCase = true) }.isEmpty()) {
+                NoResults()
+            }
+
             LazyVerticalGrid(
                 columns = GridCells.Fixed(1),
                 modifier = Modifier.padding(top = 20.dp)
