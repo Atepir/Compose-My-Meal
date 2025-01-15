@@ -14,7 +14,7 @@ class IngredientsViewModel : ViewModel() {
 
     val meals = mutableStateOf<List<MealDetail>>(emptyList())
     val filteredMeals = mutableStateOf<List<MealDetail>>(emptyList())
-    val isLoading = mutableStateOf(false)
+    val isLoading = mutableStateOf(true)
     val ingredients = mutableStateOf<List<String>>(emptyList())
 
     // Caches
@@ -22,22 +22,23 @@ class IngredientsViewModel : ViewModel() {
     private val mealsCache = mutableMapOf<String, List<MealDetail>>()
 
     fun fetchMealsByIngredient(ingredient: String, forceRefresh: Boolean = false) {
+        isLoading.value = true
+
         if (!forceRefresh && mealsCache.containsKey(ingredient)) {
             meals.value = mealsCache[ingredient]!!
             filteredMeals.value = meals.value
+            isLoading.value = false
             return
         }
 
-        isLoading.value = true
-
         RetrofitInstance.api.getMealsByIngredient(ingredient).enqueue(object : Callback<MealDetailsResponse> {
             override fun onResponse(call: Call<MealDetailsResponse>, response: Response<MealDetailsResponse>) {
-                isLoading.value = false
                 if (response.isSuccessful) {
                     val fetchedMeals = response.body()?.meals ?: emptyList()
                     meals.value = fetchedMeals
                     filteredMeals.value = fetchedMeals
                     mealsCache[ingredient] = fetchedMeals
+                    isLoading.value = false
                 }
             }
 

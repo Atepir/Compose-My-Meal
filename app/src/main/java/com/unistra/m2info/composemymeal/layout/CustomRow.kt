@@ -32,7 +32,7 @@ fun CustomRow(
         indicator = {},
         divider = {},
         containerColor = Color.Transparent,
-        edgePadding = 0.dp
+        edgePadding = 0.dp,
     ) {
         items.forEachIndexed { index, title ->
             Tab(

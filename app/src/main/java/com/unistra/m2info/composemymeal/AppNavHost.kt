@@ -4,6 +4,8 @@ import android.text.Layout
 import android.transition.Fade
 import androidx.compose.foundation.layout.*
 import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.FastOutLinearInEasing
+import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
@@ -79,25 +81,15 @@ fun AppNavHost() {
         ) {
             SheetStackManager(sheetStack = sheetStack) {
                 NavHost(
-                    navController = navController, startDestination = "suggestion"
+                    navController = navController,
+                    startDestination = "suggestion"
                 ) {
                     composable(
-                        route = "suggestion",
-                        enterTransition = {
-                            fadeIn(tween(100))
-                        },
-                        exitTransition = null
+                        route = "suggestion"
                     ) { SuggestionScreen(navController, sheetStack) }
 
                     composable(
-                        route = "favorites",
-                        enterTransition = {
-                            slideIntoContainer(
-                                AnimatedContentTransitionScope.SlideDirection.Start,
-                                tween(100)
-                            )
-                        },
-                        exitTransition = null
+                        route = "favorites"
                     ) { FavoritesScreen(navController, sheetStack) }
                 }
             }
