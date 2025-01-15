@@ -28,7 +28,6 @@ import coil.compose.AsyncImage
 import com.unistra.m2info.composemymeal.layout.SheetStack
 import com.unistra.m2info.composemymeal.components.CountriesSheet
 import com.unistra.m2info.composemymeal.components.IngredientsSheet
-import com.unistra.m2info.composemymeal.components.NoResults
 import com.unistra.m2info.composemymeal.components.SearchInputField
 import com.unistra.m2info.composemymeal.utils.countryIconMap
 import com.unistra.m2info.composemymeal.viewmodels.CountriesViewModel
@@ -138,9 +137,7 @@ fun BrowseSheet(
                 }
             }
 
-            if (filteredIngredients.isEmpty() && filteredCountries.isEmpty()) {
-                NoResults()
-            }
+
         }
 
         Box(
