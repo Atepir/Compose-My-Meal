@@ -20,24 +20,24 @@ private val DarkColorScheme = darkColorScheme(
     primary = Dark,
     secondary = DarkLight,
     tertiary = Dark,
-    background = Color(0xFF0E103D),
-    onBackground = Color(0xffffffff)
-)
-
-private val LightColorScheme = lightColorScheme(
-    primary = Dark,
-    secondary = DarkLight,
-    tertiary = Dark,
-    surface = Color(0xFF000000),
-    onSurface = Color(0xFF1C1B1F),
-    background = Color(0xFFFFFFFF),
-    onBackground = Color(0xFF1C1B1F),
-
-    /* Other default colors to override
+    background = Dark,
+    onBackground = Color.White,
+    onSurface = Color.White,
     onPrimary = Color.White,
     onSecondary = Color.White,
     onTertiary = Color.White,
-    */
+)
+
+private val LightColorScheme = lightColorScheme(
+    primary = Color.LightGray,
+    secondary = Color.White,
+    tertiary = Color.White,
+    background = Color.White,
+    onBackground = Dark,
+    onSurface = Dark,
+    onPrimary = Dark,
+    onSecondary = Dark,
+    onTertiary = Dark,
 )
 
 val UbuntuFontFamily = FontFamily(
