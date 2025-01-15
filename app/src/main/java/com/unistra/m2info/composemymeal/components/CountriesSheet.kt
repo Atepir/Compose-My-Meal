@@ -119,7 +119,7 @@ fun CountriesSheet(sheetStack: SheetStack, defaultCountry: String = "France") {
             Box(
                 modifier = Modifier.align(Alignment.BottomCenter).background(Color.Transparent).padding(bottom = 32.dp)
             ) {
-                SearchInputField(searchText, { searchText = it }, label = "Search countries...")
+                SearchInputField(searchText, { searchText = it }, label = "Search meals in this country...")
             }
         }
     }

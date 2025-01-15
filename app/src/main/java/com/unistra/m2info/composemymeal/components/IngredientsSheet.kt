@@ -120,7 +120,7 @@ fun IngredientsSheet(sheetStack: SheetStack, defaultIngredient: String = "Tomato
             Box(
                 modifier = Modifier.align(Alignment.BottomCenter).background(Color.Transparent).padding(bottom = 32.dp)
             ) {
-                SearchInputField(searchText, { searchText = it }, label = "Search ingredients...")
+                SearchInputField(searchText, { searchText = it }, label = "Search meals in this ingredient...")
             }
         }
     }
