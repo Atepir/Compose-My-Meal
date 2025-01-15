@@ -9,8 +9,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import com.unistra.m2info.composemymeal.layout.SlidingHandOnboarding
 import com.unistra.m2info.composemymeal.ui.theme.ComposeMyMealTheme
 import com.unistra.m2info.composemymeal.utils.FavoritesManager
+import com.unistra.m2info.composemymeal.utils.OnBoardingHelper
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,7 +26,11 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    AppNavHost()
+                    if (!OnBoardingHelper.isOnboardingShown(this))
+                        SlidingHandOnboarding(this, content = { AppNavHost()}) {
+                            AppNavHost()
+                        }
+                    else AppNavHost()
                 }
             }
         }
