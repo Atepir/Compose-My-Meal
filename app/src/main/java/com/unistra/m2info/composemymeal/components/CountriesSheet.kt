@@ -108,7 +108,7 @@ fun CountriesSheet(sheetStack: SheetStack, defaultCountry: String = "France") {
                     )
                 }
                 item {
-                    Spacer(modifier = Modifier.padding(bottom = 48.dp))
+                    Spacer(modifier = Modifier.padding(bottom = 100.dp))
                 }
             }
 

@@ -67,7 +67,7 @@ fun SearchAllSheet(
                     )
                 }
                 item {
-                    Spacer(modifier = Modifier.padding(bottom = 48.dp))
+                    Spacer(modifier = Modifier.padding(bottom = 100.dp))
                 }
             }
 
