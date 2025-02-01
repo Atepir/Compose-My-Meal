@@ -1,4 +1,4 @@
-# My App
+# Compose My Meal 
 
 An amazing mobile app that helps you explore meals, view ingredients, and get meal suggestions.
 
