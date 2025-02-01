@@ -18,7 +18,3 @@ An amazing mobile app that helps you explore meals, view ingredients, and get me
 <p align="center">
   <img src="https://github.com/user-attachments/assets/f01f0076-8bd1-46c0-acae-f0d17d9416d7" alt="Ingredients Dark Theme" width="200"/>
 </p>
-
----
-
-By using `<p align="center">` and setting `width="200"`, you create a compact, App Store-like screenshot layout. Adjust the widths as needed! 🚀
